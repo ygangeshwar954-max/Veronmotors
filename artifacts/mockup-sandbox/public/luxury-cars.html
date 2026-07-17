@@ -1005,6 +1005,58 @@
     }
     .footer-legal a:hover { color: rgba(255,255,255,0.45); }
 
+    /* ─── SCROLL REVEAL ──────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(48px);
+      transition: opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: opacity, transform;
+    }
+    .reveal.from-left  { transform: translateX(-56px); }
+    .reveal.from-right { transform: translateX(56px);  }
+    .reveal.scale-up   { transform: translateY(32px) scale(0.97); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translate(0,0) scale(1);
+    }
+    /* stagger delays */
+    .rd1 { transition-delay: 0.08s; }
+    .rd2 { transition-delay: 0.18s; }
+    .rd3 { transition-delay: 0.28s; }
+    .rd4 { transition-delay: 0.38s; }
+    .rd5 { transition-delay: 0.48s; }
+    .rd6 { transition-delay: 0.58s; }
+
+    /* Collection filter tabs */
+    .collection-filters {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+    .filter-btn {
+      padding: 8px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: transparent;
+      color: var(--gray-2);
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.07);
+    }
+
     /* ─── RESPONSIVE ─────────────────────────────────────────────── */
     @media (max-width: 1024px) {
       .container { padding: 0 48px; }
@@ -1036,6 +1088,8 @@
       .footer-legal { flex-wrap: wrap; justify-content: center; }
       .brands-inner { flex-wrap: wrap; gap: 0; }
       .brand-item { font-size: 11px; padding: 6px 14px; }
+      .collection-filters { gap: 8px; }
+      .filter-btn { padding: 7px 16px; font-size: 10px; }
     }
   </style>
 </head>
@@ -1137,16 +1191,25 @@
   ─────────────────────────────────────────── -->
   <section class="collection" id="collection">
     <div class="container">
-      <div class="collection-header">
+      <div class="collection-header reveal">
         <p class="section-label">Featured Collection</p>
         <h2 class="section-title">Masterpieces in Motion</h2>
         <div class="gold-divider"></div>
       </div>
 
+      <!-- Filter tabs -->
+      <div class="collection-filters reveal rd1">
+        <button class="filter-btn active" data-filter="all">All Models</button>
+        <button class="filter-btn" data-filter="supercar">Supercar</button>
+        <button class="filter-btn" data-filter="hypercar">Hypercar</button>
+        <button class="filter-btn" data-filter="suv">Luxury SUV</button>
+        <button class="filter-btn" data-filter="roadster">Roadster</button>
+      </div>
+
       <div class="cars-grid">
 
         <!-- Card 1 -->
-        <article class="car-card">
+        <article class="car-card reveal rd1" data-category="supercar">
           <div class="car-img-wrap">
             <img src="images/hero-car.png" alt="Obsidian GT-R" loading="lazy" />
             <div class="car-badge">NEW</div>
@@ -1171,7 +1234,7 @@
         </article>
 
         <!-- Card 2 -->
-        <article class="car-card">
+        <article class="car-card reveal rd2" data-category="supercar">
           <div class="car-img-wrap">
             <img src="images/car-2.png" alt="Arctic Spectre" loading="lazy" />
             <div class="car-badge">LIMITED</div>
@@ -1196,7 +1259,7 @@
         </article>
 
         <!-- Card 3 -->
-        <article class="car-card">
+        <article class="car-card reveal rd3" data-category="hypercar">
           <div class="car-img-wrap">
             <img src="images/car-3.png" alt="Midnight Sovereign" loading="lazy" />
             <div class="car-badge">BESPOKE</div>
@@ -1220,9 +1283,84 @@
           </div>
         </article>
 
+        <!-- Card 4 -->
+        <article class="car-card reveal rd4" data-category="hypercar">
+          <div class="car-img-wrap">
+            <img src="images/car-4.jpg" alt="Crimson Phantom" loading="lazy" />
+            <div class="car-badge">HYPERCAR</div>
+            <div class="car-img-fade"></div>
+          </div>
+          <div class="car-body">
+            <p class="car-tag">Fury in crimson.</p>
+            <h3 class="car-name">Crimson Phantom</h3>
+            <div class="car-specs">
+              <span class="car-spec">980 HP</span>
+              <span class="car-spec">0–60 in 2.1s</span>
+              <span class="car-spec">RWD</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <p class="car-price-label">Starting from</p>
+                <p class="car-price">$528,000</p>
+              </div>
+              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="car-card reveal rd5" data-category="suv">
+          <div class="car-img-wrap">
+            <img src="images/car-5.jpg" alt="Onyx Predator" loading="lazy" />
+            <div class="car-badge">SUV</div>
+            <div class="car-img-fade"></div>
+          </div>
+          <div class="car-body">
+            <p class="car-tag">Dominance, refined.</p>
+            <h3 class="car-name">Onyx Predator</h3>
+            <div class="car-specs">
+              <span class="car-spec">710 HP</span>
+              <span class="car-spec">0–60 in 3.2s</span>
+              <span class="car-spec">AWD</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <p class="car-price-label">Starting from</p>
+                <p class="car-price">$378,000</p>
+              </div>
+              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="car-card reveal rd6" data-category="roadster">
+          <div class="car-img-wrap">
+            <img src="images/car-6.jpg" alt="Titanium Revenant" loading="lazy" />
+            <div class="car-badge">ROADSTER</div>
+            <div class="car-img-fade"></div>
+          </div>
+          <div class="car-body">
+            <p class="car-tag">Open air, pure soul.</p>
+            <h3 class="car-name">Titanium Revenant</h3>
+            <div class="car-specs">
+              <span class="car-spec">580 HP</span>
+              <span class="car-spec">0–60 in 3.0s</span>
+              <span class="car-spec">RWD</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <p class="car-price-label">Starting from</p>
+                <p class="car-price">$312,000</p>
+              </div>
+              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+            </div>
+          </div>
+        </article>
+
       </div><!-- /cars-grid -->
 
-      <div class="collection-cta">
+      <div class="collection-cta reveal">
         <a href="#signup" class="btn-outline">View Full Collection →</a>
       </div>
     </div>
@@ -1236,7 +1374,7 @@
       <div class="experience-grid">
 
         <!-- Image -->
-        <div class="exp-img-wrap">
+        <div class="exp-img-wrap reveal from-left">
           <div class="exp-accent-bar"></div>
           <div class="exp-img">
             <img src="images/interior.png" alt="Luxury interior" />
@@ -1248,7 +1386,7 @@
         </div>
 
         <!-- Text -->
-        <div class="exp-text">
+        <div class="exp-text reveal from-right">
           <p class="section-label">The Veyron Experience</p>
           <h2 class="section-title exp-title">
             Where Engineering<br>
@@ -1316,7 +1454,7 @@
   ─────────────────────────────────────────── -->
   <section class="testimonials" id="testimonials">
     <div class="container">
-      <div class="testimonials-header">
+      <div class="testimonials-header reveal">
         <p class="section-label">Client Stories</p>
         <h2 class="section-title">Voices of Excellence</h2>
         <div class="gold-divider"></div>
@@ -1324,7 +1462,7 @@
 
       <div class="testimonials-grid">
 
-        <div class="testimonial-card">
+        <div class="testimonial-card reveal rd1">
           <div class="t-stars">
             <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
             <span class="t-star">★</span><span class="t-star">★</span>
@@ -1339,7 +1477,7 @@
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card reveal rd2">
           <div class="t-stars">
             <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
             <span class="t-star">★</span><span class="t-star">★</span>
@@ -1354,7 +1492,7 @@
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card reveal rd3">
           <div class="t-stars">
             <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
             <span class="t-star">★</span><span class="t-star">★</span>
@@ -1449,7 +1587,7 @@
       <div class="faq-grid">
 
         <!-- Left label -->
-        <div class="faq-left">
+        <div class="faq-left reveal from-left">
           <p class="section-label">FAQ</p>
           <h2 class="section-title">Everything<br>You Need<br>to Know.</h2>
           <p class="faq-left-desc">Have a question not answered here? Our private advisors are available around the clock.</p>
@@ -1459,7 +1597,7 @@
         <!-- Accordion -->
         <div class="faq-right">
 
-          <div class="faq-item">
+          <div class="faq-item reveal rd1">
             <div class="faq-question" role="button" tabindex="0">
               What financing options are available for Veyron vehicles?
               <div class="faq-icon">+</div>
@@ -1467,7 +1605,7 @@
             <div class="faq-answer">We offer bespoke financing solutions tailored to your portfolio, including balloon financing, lease programs, and direct purchase arrangements through our partner banks globally.</div>
           </div>
 
-          <div class="faq-item">
+          <div class="faq-item reveal rd2">
             <div class="faq-question" role="button" tabindex="0">
               How does the bespoke customization process work?
               <div class="faq-icon">+</div>
@@ -1475,7 +1613,7 @@
             <div class="faq-answer">Our atelier team works directly with you across 4–6 design sessions to configure your vehicle's exterior, interior, and mechanical specifications. Lead time is typically 14–20 weeks from final sign-off.</div>
           </div>
 
-          <div class="faq-item">
+          <div class="faq-item reveal rd3">
             <div class="faq-question" role="button" tabindex="0">
               Do you offer white-glove delivery worldwide?
               <div class="faq-icon">+</div>
@@ -1483,7 +1621,7 @@
             <div class="faq-answer">Yes. Every Veyron vehicle is delivered by our concierge logistics team with full insurance, enclosed transport, and a personal handover experience at your chosen location anywhere in the world.</div>
           </div>
 
-          <div class="faq-item">
+          <div class="faq-item reveal rd4">
             <div class="faq-question" role="button" tabindex="0">
               What warranty and maintenance programs are included?
               <div class="faq-icon">+</div>
@@ -1491,7 +1629,7 @@
             <div class="faq-answer">All vehicles include a 5-year unlimited-kilometre factory warranty, complimentary annual servicing for 3 years, and 24/7 roadside concierge across 40+ countries through our global partner network.</div>
           </div>
 
-          <div class="faq-item">
+          <div class="faq-item reveal rd5">
             <div class="faq-question" role="button" tabindex="0">
               Can I schedule a private test drive experience?
               <div class="faq-icon">+</div>
@@ -1585,6 +1723,62 @@
        VANILLA JS — INTERACTIONS
   ─────────────────────────────────────────── -->
   <script>
+    // ── Scroll Reveal (IntersectionObserver) ─────────
+    (function() {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target); // fire once
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -60px 0px'
+      });
+
+      document.querySelectorAll('.reveal').forEach(function(el) {
+        io.observe(el);
+      });
+    })();
+
+    // ── Collection Filter Tabs ───────────────────────
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        // update active state
+        document.querySelectorAll('.filter-btn').forEach(function(b) {
+          b.classList.remove('active');
+        });
+        btn.classList.add('active');
+
+        var filter = btn.getAttribute('data-filter');
+        var cards = document.querySelectorAll('.car-card');
+
+        cards.forEach(function(card) {
+          var cat = card.getAttribute('data-category');
+          var show = (filter === 'all' || cat === filter);
+
+          if (show) {
+            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease, border-color 0.45s ease, box-shadow 0.45s ease';
+            card.style.opacity = '1';
+            card.style.transform = card.classList.contains('visible') ? 'translateY(0)' : '';
+            card.style.display = '';
+            // re-trigger entrance if not yet visible
+            if (!card.classList.contains('visible')) {
+              setTimeout(function() { card.classList.add('visible'); }, 60);
+            }
+          } else {
+            card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(16px)';
+            setTimeout(function() {
+              if (card.style.opacity === '0') card.style.display = 'none';
+            }, 320);
+          }
+        });
+      });
+    });
+
     // ── FAQ Accordion ───────────────────────────────
     document.querySelectorAll('.faq-question').forEach(function(q) {
       q.addEventListener('click', function() {
@@ -1617,7 +1811,6 @@
       var interest = document.getElementById('finterest').value;
 
       if (!name || !email || !interest) {
-        // Highlight empty required fields
         [['fname', name], ['femail', email], ['finterest', interest]].forEach(function(pair) {
           var el = document.getElementById(pair[0]);
           if (!pair[1]) {
@@ -1645,42 +1838,103 @@
     var navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', function() {
       if (window.scrollY > 60) {
-        navbar.style.background = 'rgba(0,0,0,0.95)';
-        navbar.style.borderBottomColor = 'rgba(201,168,76,0.12)';
+        navbar.style.background = 'rgba(0,0,0,0.96)';
+        navbar.style.borderBottomColor = 'rgba(201,168,76,0.14)';
       } else {
         navbar.style.background = 'rgba(0,0,0,0.82)';
         navbar.style.borderBottomColor = 'rgba(255,255,255,0.05)';
       }
-    });
+    }, { passive: true });
 
     // ── Smooth anchor scroll ─────────────────────────
     document.querySelectorAll('a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
-        var target = document.querySelector(link.getAttribute('href'));
+        var href = link.getAttribute('href');
+        if (href === '#') return;
+        var target = document.querySelector(href);
         if (target) {
           e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          var navH = 72;
+          var top = target.getBoundingClientRect().top + window.scrollY - navH;
+          window.scrollTo({ top: top, behavior: 'smooth' });
         }
       });
     });
 
     // ── Hamburger (mobile) ───────────────────────────
     var hamburger = document.getElementById('hamburger');
-    var navLinks = document.querySelector('.nav-links');
+    var navLinks  = document.querySelector('.nav-links');
+    var menuOpen  = false;
+
     hamburger.addEventListener('click', function() {
-      var open = navLinks.style.display === 'flex';
-      navLinks.style.display = open ? 'none' : 'flex';
-      navLinks.style.flexDirection = 'column';
-      navLinks.style.position = 'absolute';
-      navLinks.style.top = '72px';
-      navLinks.style.left = '0';
-      navLinks.style.right = '0';
-      navLinks.style.background = 'rgba(0,0,0,0.98)';
-      navLinks.style.padding = '24px 32px';
-      navLinks.style.gap = '18px';
-      navLinks.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
-      if (open) navLinks.style.display = 'none';
+      menuOpen = !menuOpen;
+      if (menuOpen) {
+        navLinks.style.display        = 'flex';
+        navLinks.style.flexDirection  = 'column';
+        navLinks.style.position       = 'absolute';
+        navLinks.style.top            = '72px';
+        navLinks.style.left           = '0';
+        navLinks.style.right          = '0';
+        navLinks.style.background     = 'rgba(0,0,0,0.98)';
+        navLinks.style.padding        = '24px 32px';
+        navLinks.style.gap            = '18px';
+        navLinks.style.borderBottom   = '1px solid rgba(255,255,255,0.06)';
+        navLinks.style.zIndex         = '199';
+        navLinks.style.animation      = 'fadeInUp 0.28s ease both';
+      } else {
+        navLinks.style.display = 'none';
+      }
+
+      // close menu when a nav link is tapped
+      navLinks.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+          menuOpen = false;
+          navLinks.style.display = 'none';
+        }, { once: true });
+      });
     });
+
+    // ── Stat counter animation ───────────────────────
+    function animateCounter(el, target, suffix) {
+      var start = 0;
+      var duration = 1400;
+      var startTime = null;
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var ease = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+        var val = Math.round(ease * target);
+        el.textContent = val + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    var statsAnimated = false;
+    var statsSection  = document.querySelector('.hero-stats');
+    var statObserver  = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !statsAnimated) {
+        statsAnimated = true;
+        var defs = [
+          { selector: '.hero-stat:nth-child(1) .hero-stat-value', val: 28,   suffix: '+' },
+          { selector: '.hero-stat:nth-child(2) .hero-stat-value', val: 4200, suffix: '',  display: '4.2K' },
+          { selector: '.hero-stat:nth-child(3) .hero-stat-value', val: 94,   suffix: '%' },
+          { selector: '.hero-stat:nth-child(4) .hero-stat-value', val: 18,   suffix: ''  },
+        ];
+        defs.forEach(function(d) {
+          var el = document.querySelector(d.selector);
+          if (!el) return;
+          if (d.display) {
+            // simple text swap after delay
+            setTimeout(function() { el.textContent = d.display; }, 1400);
+          } else {
+            animateCounter(el, d.val, d.suffix);
+          }
+        });
+        statObserver.disconnect();
+      }
+    }, { threshold: 0.5 });
+    if (statsSection) statObserver.observe(statsSection);
   </script>
 
 </body>
