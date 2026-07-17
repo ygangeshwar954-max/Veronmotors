@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collection — Veyron Motors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
+  <style>
+    /* ─── RESET ──────────────────────────────────────────────────── */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    a{text-decoration:none}
+    img{display:block;max-width:100%}
+    button{cursor:pointer;font-family:inherit;border:none;background:none}
+    ul,ol{list-style:none}
+
+    /* ─── TOKENS ─────────────────────────────────────────────────── */
+    :root{
+      --gold:#C9A84C;--gold-light:#E8C76A;--gold-dark:#9A7A2E;
+      --black:#000;--black-1:#080808;--black-2:#111;--black-3:#1A1A1A;--black-4:#242424;
+      --white:#fff;--gray-1:#F5F5F5;--gray-2:#9CA3AF;--gray-3:#6B7280;
+      --glass-bg:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08);
+      --font-d:'Montserrat',sans-serif;--font-b:'Space Grotesk',sans-serif;
+      --ease:all 0.3s ease;
+    }
+
+    /* ─── BASE ───────────────────────────────────────────────────── */
+    body{
+      font-family:var(--font-b);
+      background:var(--black-1);
+      color:var(--white);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-track{background:var(--black-1)}
+    ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:2px}
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────────── */
+    @keyframes shimmer{
+      0%{background-position:-200% center}
+      100%{background-position:200% center}
+    }
+    @keyframes fadeInDown{
+      from{opacity:0;transform:translateY(-20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @keyframes fadeInUp{
+      from{opacity:0;transform:translateY(32px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @keyframes spin{
+      to{transform:rotate(360deg)}
+    }
+    @keyframes pulse{
+      0%,100%{opacity:1}50%{opacity:.4}
+    }
+
+    /* ─── SCROLL REVEAL ──────────────────────────────────────────── */
+    .reveal{
+      opacity:0;
+      transform:translateY(40px);
+      transition:opacity 0.65s cubic-bezier(.25,.46,.45,.94),
+                 transform 0.65s cubic-bezier(.25,.46,.45,.94);
+      will-change:opacity,transform;
+    }
+    .reveal.from-left {transform:translateX(-40px)}
+    .reveal.from-right{transform:translateX(40px)}
+    .reveal.visible{opacity:1;transform:translate(0,0)}
+    .rd1{transition-delay:.06s} .rd2{transition-delay:.12s}
+    .rd3{transition-delay:.18s} .rd4{transition-delay:.24s}
+    .rd5{transition-delay:.30s} .rd6{transition-delay:.36s}
+
+    /* ─── UTILITY ────────────────────────────────────────────────── */
+    .container{max-width:1380px;margin:0 auto;padding:0 60px}
+    .text-gold{
+      background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold),var(--gold-dark));
+      background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      background-clip:text;animation:shimmer 4s linear infinite;
+    }
+    .glass{
+      background:var(--glass-bg);
+      border:1px solid var(--glass-border);
+      backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────────── */
+    .navbar{
+      position:fixed;top:0;left:0;right:0;z-index:300;
+      height:68px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 52px;
+      background:rgba(0,0,0,0.9);
+      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      animation:fadeInDown .5s ease both;
+    }
+    .nav-logo{display:flex;align-items:center;gap:10px}
+    .nav-logo-icon{
+      width:36px;height:36px;border-radius:50%;
+      border:1.5px solid var(--gold);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 0 16px rgba(201,168,76,.28);
+    }
+    .nav-logo-text{font-family:var(--font-d);font-weight:800;font-size:17px;letter-spacing:.18em;text-transform:uppercase}
+    .nav-right{display:flex;align-items:center;gap:20px}
+    .nav-back{
+      font-family:var(--font-d);font-size:11px;font-weight:600;
+      letter-spacing:.1em;text-transform:uppercase;color:var(--gray-2);
+      display:flex;align-items:center;gap:8px;transition:color .25s;
+    }
+    .nav-back:hover{color:var(--white)}
+    .nav-back svg{transition:transform .25s}
+    .nav-back:hover svg{transform:translateX(-3px)}
+    .btn-gold{
+      display:inline-block;padding:11px 28px;border-radius:999px;
+      background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+      color:var(--black);font-family:var(--font-d);font-weight:700;
+      font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+      transition:var(--ease);box-shadow:0 4px 20px rgba(201,168,76,.25);white-space:nowrap;
+    }
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,.45)}
+    .btn-outline{
+      display:inline-block;padding:11px 28px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);color:var(--white);
+      font-family:var(--font-d);font-weight:500;font-size:11px;
+      letter-spacing:.12em;text-transform:uppercase;transition:var(--ease);white-space:nowrap;
+    }
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+    .nav-hamburger{
+      display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer;
+    }
+    .nav-hamburger span{display:block;width:22px;height:1.5px;background:var(--white);transition:var(--ease)}
+
+    /* ─── PAGE HERO ──────────────────────────────────────────────── */
+    .page-hero{
+      padding:120px 0 56px;
+      background:var(--black-1);
+      position:relative;overflow:hidden;
+    }
+    .page-hero::before{
+      content:'';position:absolute;
+      top:-200px;right:-200px;
+      width:700px;height:700px;border-radius:50%;
+      background:radial-gradient(ellipse,rgba(201,168,76,.05) 0%,transparent 70%);
+      filter:blur(60px);pointer-events:none;
+    }
+    .page-hero-inner{
+      position:relative;z-index:1;
+      display:flex;align-items:flex-end;justify-content:space-between;
+      flex-wrap:wrap;gap:32px;
+    }
+    .page-hero-label{
+      font-family:var(--font-d);font-size:11px;font-weight:600;
+      letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;
+    }
+    .page-hero-title{
+      font-family:var(--font-d);font-size:clamp(36px,5vw,64px);
+      font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:16px;
+    }
+    .page-hero-sub{
+      font-size:15px;line-height:1.8;color:rgba(255,255,255,.42);max-width:480px;
+    }
+    .page-hero-count{
+      text-align:right;flex-shrink:0;
+    }
+    .count-num{
+      font-family:var(--font-d);font-size:72px;font-weight:800;line-height:1;
+      background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .count-label{
+      font-family:var(--font-d);font-size:11px;letter-spacing:.26em;
+      text-transform:uppercase;color:rgba(255,255,255,.2);
+    }
+
+    /* ─── STICKY FILTER BAR ──────────────────────────────────────── */
+    .filter-bar{
+      position:sticky;top:68px;z-index:200;
+      background:rgba(8,8,8,.95);
+      backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      padding:0;
+    }
+    .filter-bar-inner{
+      display:flex;align-items:stretch;
+      gap:0;
+      min-height:58px;
+    }
+
+    /* Category tabs */
+    .cat-tabs{
+      display:flex;align-items:center;
+      border-right:1px solid rgba(255,255,255,.06);
+      overflow-x:auto;scrollbar-width:none;flex-shrink:0;
+    }
+    .cat-tabs::-webkit-scrollbar{display:none}
+    .cat-tab{
+      padding:0 22px;height:58px;
+      font-family:var(--font-d);font-size:11px;font-weight:600;
+      letter-spacing:.14em;text-transform:uppercase;
+      color:var(--gray-3);
+      border-right:1px solid rgba(255,255,255,.05);
+      transition:all .25s;white-space:nowrap;
+      position:relative;
+    }
+    .cat-tab::after{
+      content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+      background:var(--gold);transform:scaleX(0);transition:transform .3s ease;
+    }
+    .cat-tab:hover{color:var(--white);background:rgba(255,255,255,.03)}
+    .cat-tab.active{color:var(--gold)}
+    .cat-tab.active::after{transform:scaleX(1)}
+
+    /* Search */
+    .filter-search{
+      display:flex;align-items:center;gap:10px;
+      padding:0 20px;
+      border-right:1px solid rgba(255,255,255,.06);
+      flex:1;min-width:160px;
+    }
+    .filter-search svg{color:var(--gray-3);flex-shrink:0}
+    .filter-search input{
+      width:100%;background:transparent;border:none;
+      color:var(--white);font-family:var(--font-b);font-size:13px;outline:none;
+    }
+    .filter-search input::placeholder{color:var(--gray-3)}
+
+    /* Sort */
+    .filter-sort{
+      display:flex;align-items:center;gap:8px;
+      padding:0 20px;
+      border-right:1px solid rgba(255,255,255,.06);
+      flex-shrink:0;
+    }
+    .filter-sort-label{
+      font-family:var(--font-d);font-size:10px;font-weight:600;
+      letter-spacing:.14em;text-transform:uppercase;color:var(--gray-3);white-space:nowrap;
+    }
+    .filter-sort select{
+      background:transparent;border:none;color:var(--white);
+      font-family:var(--font-b);font-size:12px;outline:none;cursor:pointer;
+      appearance:none;-webkit-appearance:none;padding-right:16px;
+    }
+    .filter-sort select option{background:#111;color:#fff}
+    .sort-wrap{position:relative}
+    .sort-wrap::after{
+      content:'▾';position:absolute;right:0;top:50%;
+      transform:translateY(-50%);color:var(--gray-3);font-size:10px;pointer-events:none;
+    }
+
+    /* View toggle */
+    .filter-view{
+      display:flex;align-items:center;gap:2px;padding:0 16px;flex-shrink:0;
+    }
+    .view-btn{
+      width:34px;height:34px;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;
+      color:var(--gray-3);transition:var(--ease);
+    }
+    .view-btn:hover{color:var(--white);background:rgba(255,255,255,.06)}
+    .view-btn.active{color:var(--gold);background:rgba(201,168,76,.1)}
+
+    /* Results info */
+    .filter-results{
+      display:flex;align-items:center;padding:0 20px;
+      flex-shrink:0;
+    }
+    .results-count{
+      font-family:var(--font-d);font-size:11px;font-weight:600;
+      letter-spacing:.1em;color:var(--gray-3);white-space:nowrap;
+    }
+    .results-count span{color:var(--gold)}
+
+    /* ─── MAIN CONTENT ───────────────────────────────────────────── */
+    .main{padding:48px 0 100px}
+
+    /* ─── GRID ───────────────────────────────────────────────────── */
+    .cars-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+    .cars-grid.view-list{
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+
+    /* ─── CAR CARD ───────────────────────────────────────────────── */
+    .car-card{
+      background:var(--glass-bg);
+      border:1px solid var(--glass-border);
+      border-radius:18px;overflow:hidden;
+      transition:border-color .45s ease,transform .45s ease,box-shadow .45s ease;
+      cursor:pointer;
+    }
+    .car-card:hover{
+      border-color:rgba(201,168,76,.3);
+      transform:translateY(-7px);
+      box-shadow:0 24px 56px rgba(0,0,0,.6),0 0 40px rgba(201,168,76,.07);
+    }
+    .car-card.hidden{display:none}
+
+    /* Image */
+    .car-img-wrap{position:relative;overflow:hidden;height:216px}
+    .car-img-wrap img{
+      width:100%;height:100%;object-fit:cover;
+      transition:transform .6s ease;
+    }
+    .car-card:hover .car-img-wrap img{transform:scale(1.05)}
+    .car-badge{
+      position:absolute;top:14px;left:14px;
+      padding:4px 14px;border-radius:999px;
+      border:1px solid rgba(201,168,76,.5);
+      background:rgba(201,168,76,.1);
+      font-family:var(--font-d);font-size:9px;font-weight:700;
+      letter-spacing:.22em;color:var(--gold-light);
+    }
+    .car-badge.badge-rare{
+      border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.1);color:#f87171;
+    }
+    .car-badge.badge-new{
+      border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.1);color:#4ade80;
+    }
+    .car-badge.badge-electric{
+      border-color:rgba(59,130,246,.5);background:rgba(59,130,246,.1);color:#60a5fa;
+    }
+    .car-badge.badge-heritage{
+      border-color:rgba(249,115,22,.5);background:rgba(249,115,22,.1);color:#fb923c;
+    }
+    .car-img-fade{
+      position:absolute;bottom:0;left:0;right:0;height:80px;
+      background:linear-gradient(to top,rgba(0,0,0,.82),transparent);
+    }
+    .car-num{
+      position:absolute;bottom:12px;right:14px;
+      font-family:var(--font-d);font-size:10px;font-weight:700;
+      letter-spacing:.06em;color:rgba(255,255,255,.3);
+    }
+
+    /* Body */
+    .car-body{padding:22px 26px 26px}
+    .car-tag{
+      font-family:var(--font-d);font-size:10px;letter-spacing:.26em;
+      text-transform:uppercase;color:var(--gray-3);margin-bottom:6px;
+    }
+    .car-name{
+      font-family:var(--font-d);font-size:22px;font-weight:700;
+      letter-spacing:-.01em;margin-bottom:14px;line-height:1.2;
+    }
+    .car-specs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+    .car-spec{
+      padding:4px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);
+      font-size:11px;color:var(--gray-2);
+    }
+    .car-spec.spec-custom{
+      border-color:rgba(201,168,76,.2);color:var(--gold);
+    }
+    .car-footer{
+      display:flex;align-items:center;justify-content:space-between;
+      padding-top:18px;border-top:1px solid rgba(255,255,255,.06);
+    }
+    .car-price-label{font-size:9px;color:var(--gray-3);letter-spacing:.09em;text-transform:uppercase;margin-bottom:3px}
+    .car-price{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--gold-light)}
+
+    /* List view card overrides */
+    .cars-grid.view-list .car-card{
+      display:grid;grid-template-columns:280px 1fr;
+      border-radius:14px;
+    }
+    .cars-grid.view-list .car-img-wrap{height:100%;border-radius:14px 0 0 14px}
+    .cars-grid.view-list .car-body{
+      padding:24px 32px;display:flex;flex-direction:column;justify-content:center;
+    }
+    .cars-grid.view-list .car-name{font-size:20px;margin-bottom:10px}
+    .cars-grid.view-list .car-num{bottom:auto;top:12px}
+    .cars-grid.view-list .car-card:hover{transform:translateY(-4px)}
+
+    /* ─── EMPTY STATE ────────────────────────────────────────────── */
+    .empty-state{
+      grid-column:1/-1;
+      text-align:center;padding:80px 0;
+      display:none;
+    }
+    .empty-state.show{display:block}
+    .empty-icon{
+      width:64px;height:64px;border-radius:50%;
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 20px;
+    }
+    .empty-title{
+      font-family:var(--font-d);font-size:20px;font-weight:700;margin-bottom:10px;
+    }
+    .empty-sub{font-size:14px;color:rgba(255,255,255,.35);line-height:1.75}
+
+    /* ─── LOAD MORE ──────────────────────────────────────────────── */
+    .load-more-wrap{
+      text-align:center;margin-top:60px;
+    }
+    .load-more{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:14px 40px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);color:var(--white);
+      font-family:var(--font-d);font-weight:600;font-size:12px;
+      letter-spacing:.14em;text-transform:uppercase;
+      transition:var(--ease);cursor:pointer;
+    }
+    .load-more:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+    .load-more.hidden{display:none}
+    .load-more svg{transition:transform .3s}
+    .load-more:hover svg{transform:translateY(3px)}
+
+    /* ─── SEPARATOR ──────────────────────────────────────────────── */
+    .sep{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);margin:0}
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    .footer{
+      background:var(--black);padding:52px 0 32px;
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+    .footer-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      flex-wrap:wrap;gap:20px;
+    }
+    .footer-logo{display:flex;align-items:center;gap:10px}
+    .footer-icon{
+      width:30px;height:30px;border-radius:50%;border:1.5px solid var(--gold);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .footer-name{font-family:var(--font-d);font-weight:800;font-size:14px;letter-spacing:.18em}
+    .footer-copy{font-size:12px;color:rgba(255,255,255,.18)}
+    .footer-links{display:flex;gap:24px}
+    .footer-links a{font-size:12px;color:rgba(255,255,255,.2);transition:color .25s}
+    .footer-links a:hover{color:var(--gold-light)}
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media(max-width:1200px){
+      .container{padding:0 40px}
+      .navbar{padding:0 36px}
+      .cars-grid{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:1024px){
+      .cars-grid{grid-template-columns:repeat(2,1fr)}
+      .cars-grid.view-list .car-card{grid-template-columns:220px 1fr}
+    }
+    @media(max-width:900px){
+      .filter-sort,.filter-results{display:none}
+    }
+    @media(max-width:768px){
+      .container{padding:0 20px}
+      .navbar{padding:0 20px}
+      .nav-right .btn-gold{display:none}
+      .nav-hamburger{display:flex}
+      .page-hero{padding:104px 0 44px}
+      .page-hero-count{display:none}
+      .filter-bar-inner{flex-wrap:wrap;min-height:auto}
+      .cat-tabs{width:100%;border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+      .filter-search{border-right:none;width:100%;padding:10px 16px}
+      .filter-view{display:none}
+      .cars-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+      .cars-grid.view-list{grid-template-columns:1fr}
+      .cars-grid.view-list .car-card{grid-template-columns:1fr}
+      .cars-grid.view-list .car-img-wrap{height:200px;border-radius:14px 14px 0 0}
+      .car-name{font-size:18px}
+      .footer-links{flex-wrap:wrap;justify-content:flex-end;gap:14px}
+    }
+    @media(max-width:480px){
+      .cars-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">Veyron</span>
+  </div>
+
+  <div class="nav-right">
+    <a href="luxury-cars.html" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Back to Home
+    </a>
+    <a href="#enquire" class="btn-gold">Book a Viewing</a>
+  </div>
+
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ── PAGE HERO ───────────────────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-inner">
+      <div>
+        <p class="page-hero-label reveal">The Full Collection</p>
+        <h1 class="page-hero-title reveal">
+          Every <span class="text-gold">Masterpiece.</span><br>
+          All in One Place.
+        </h1>
+        <p class="page-hero-sub reveal">
+          Browse our complete inventory of 61 hand-selected performance vehicles —
+          supercars, hypercars, grand tourers, luxury SUVs, electrics, classics, and bespoke commissions.
+        </p>
+      </div>
+      <div class="page-hero-count">
+        <div class="count-num">61</div>
+        <div class="count-label">Vehicles Available</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- ── FILTER BAR ─────────────────────────────────────────────────── -->
+<div class="filter-bar" id="filterBar">
+  <div class="container" style="padding:0">
+    <div class="filter-bar-inner">
+
+      <!-- Category tabs -->
+      <div class="cat-tabs" id="catTabs">
+        <button class="cat-tab active" data-cat="all">All <span style="color:var(--gold);margin-left:5px;font-size:10px" id="tabAll"></span></button>
+        <button class="cat-tab" data-cat="supercar">Supercar</button>
+        <button class="cat-tab" data-cat="hypercar">Hypercar</button>
+        <button class="cat-tab" data-cat="gt">Grand Tourer</button>
+        <button class="cat-tab" data-cat="suv">Luxury SUV</button>
+        <button class="cat-tab" data-cat="electric">Electric</button>
+        <button class="cat-tab" data-cat="classic">Classic</button>
+        <button class="cat-tab" data-cat="bespoke">Bespoke</button>
+      </div>
+
+      <!-- Search -->
+      <div class="filter-search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search models…" autocomplete="off" />
+      </div>
+
+      <!-- Sort -->
+      <div class="filter-sort">
+        <span class="filter-sort-label">Sort</span>
+        <div class="sort-wrap">
+          <select id="sortSelect">
+            <option value="default">Featured</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="power-desc">Power: Highest</option>
+            <option value="power-asc">Power: Lowest</option>
+            <option value="speed-asc">0–60: Fastest</option>
+            <option value="name-asc">Name: A → Z</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- View toggle -->
+      <div class="filter-view">
+        <button class="view-btn active" id="viewGrid" title="Grid view">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+          </svg>
+        </button>
+        <button class="view-btn" id="viewList" title="List view">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div class="filter-results">
+        <p class="results-count"><span id="resultsNum">61</span> vehicles</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ────────────────────────────────────────────────────────── -->
+<main class="main">
+  <div class="container">
+    <div class="cars-grid" id="carsGrid">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+      <h3 class="empty-title">No vehicles found</h3>
+      <p class="empty-sub">Try a different search term or adjust the filters above.</p>
+    </div>
+
+    <div class="load-more-wrap" id="loadMoreWrap">
+      <button class="load-more" id="loadMoreBtn">
+        Load More Vehicles
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </button>
+    </div>
+  </div>
+</main>
+
+<div class="sep"></div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────── -->
+<footer class="footer" id="enquire">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <div class="footer-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="footer-name">Veyron Motors</span>
+      </div>
+      <p class="footer-copy">© 2025 Veyron Motors. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="luxury-cars.html">Home</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ── JAVASCRIPT ──────────────────────────────────────────────────── -->
+<script>
+// ─── CAR DATA ─────────────────────────────────────────────────────
+const CARS = [
+  // SUPERCARS
+  {id:1, name:"Obsidian GT-R",      tag:"Born from darkness.",            cat:"supercar", badge:"NEW",      price:289000, power:620,  accel:2.9, drive:"AWD", img:"images/hero-car.png"},
+  {id:2, name:"Arctic Spectre",     tag:"Silence and speed.",             cat:"supercar", badge:"LIMITED",  price:342000, power:720,  accel:2.6, drive:"RWD", img:"images/car-2.png"},
+  {id:3, name:"Carbon Storm",       tag:"Distilled aggression.",          cat:"supercar", badge:"HOT",      price:318000, power:650,  accel:2.8, drive:"AWD", img:"images/car-11.jpg"},
+  {id:4, name:"Phantom Strike",     tag:"Precision personified.",         cat:"supercar", badge:"NEW",      price:472000, power:890,  accel:2.4, drive:"RWD", img:"images/car-12.jpg"},
+  {id:5, name:"Stealth GT",         tag:"Invisible force.",               cat:"supercar", badge:"",         price:356000, power:700,  accel:2.7, drive:"RWD", img:"images/hero-car.png"},
+  {id:6, name:"Abyss Runner",       tag:"Depth of power.",                cat:"supercar", badge:"",         price:425000, power:820,  accel:2.5, drive:"AWD", img:"images/car-2.png"},
+  {id:7, name:"Eclipse Pro",        tag:"Beyond the horizon.",            cat:"supercar", badge:"LIMITED",  price:388000, power:740,  accel:2.6, drive:"RWD", img:"images/car-11.jpg"},
+  {id:8, name:"Venom Coupe",        tag:"Venom at full bite.",            cat:"supercar", badge:"",         price:445000, power:875,  accel:2.4, drive:"AWD", img:"images/car-12.jpg"},
+  {id:9, name:"Ghost Viper",        tag:"Swift as shadow.",               cat:"supercar", badge:"HOT",      price:461000, power:830,  accel:2.5, drive:"RWD", img:"images/hero-car.png"},
+  {id:10,name:"Veyron Apex",        tag:"The apex of form.",              cat:"supercar", badge:"NEW",      price:395000, power:770,  accel:2.6, drive:"AWD", img:"images/car-2.png"},
+  {id:11,name:"Razor Edge",         tag:"Cut through limits.",            cat:"supercar", badge:"",         price:367000, power:710,  accel:2.7, drive:"RWD", img:"images/car-11.jpg"},
+  {id:12,name:"Shadow Pulse",       tag:"Pulse of the night.",            cat:"supercar", badge:"",         price:412000, power:790,  accel:2.5, drive:"AWD", img:"images/car-12.jpg"},
+  {id:13,name:"Onyx Raptor",        tag:"Raptor unleashed.",              cat:"supercar", badge:"LIMITED",  price:438000, power:840,  accel:2.4, drive:"RWD", img:"images/hero-car.png"},
+  {id:14,name:"Zenith RS",          tag:"The summit awaits.",             cat:"supercar", badge:"",         price:382000, power:730,  accel:2.6, drive:"AWD", img:"images/car-2.png"},
+
+  // HYPERCARS
+  {id:15,name:"Crimson Phantom",    tag:"Fury in crimson.",               cat:"hypercar", badge:"HYPERCAR", price:528000, power:980,  accel:2.1, drive:"RWD", img:"images/car-4.jpg"},
+  {id:16,name:"Midnight Sovereign", tag:"Command every road.",            cat:"hypercar", badge:"BESPOKE",  price:415000, power:850,  accel:2.3, drive:"AWD", img:"images/car-3.png"},
+  {id:17,name:"Quantum Shift",      tag:"Redefine possible.",             cat:"hypercar", badge:"HYPERCAR", price:748000, power:1100, accel:1.9, drive:"AWD", img:"images/car-8.jpg"},
+  {id:18,name:"Nexus Hyper",        tag:"The next dimension.",            cat:"hypercar", badge:"LIMITED",  price:812000, power:1350, accel:1.7, drive:"AWD", img:"images/car-4.jpg"},
+  {id:19,name:"Veyron Evo",         tag:"Evolution complete.",            cat:"hypercar", badge:"RARE",     price:925000, power:1480, accel:1.6, drive:"AWD", img:"images/car-8.jpg"},
+  {id:20,name:"Pulse Titan",        tag:"Titan's wrath.",                 cat:"hypercar", badge:"HYPERCAR", price:672000, power:1050, accel:1.9, drive:"AWD", img:"images/car-4.jpg"},
+  {id:21,name:"Dark Matter",        tag:"Matter over mind.",              cat:"hypercar", badge:"RARE",     price:895000, power:1400, accel:1.7, drive:"AWD", img:"images/car-8.jpg"},
+  {id:22,name:"Nova Blitz",         tag:"A new star born.",               cat:"hypercar", badge:"RARE",     price:1100000,power:1600, accel:1.5, drive:"AWD", img:"images/car-4.jpg"},
+
+  // GRAND TOURERS
+  {id:23,name:"Titanium Revenant",  tag:"Open air, pure soul.",           cat:"gt",       badge:"ROADSTER", price:312000, power:580,  accel:3.0, drive:"RWD", img:"images/car-6.jpg"},
+  {id:24,name:"Golden Meridian",    tag:"East meets velocity.",           cat:"gt",       badge:"",         price:298000, power:540,  accel:3.1, drive:"RWD", img:"images/car-9.jpg"},
+  {id:25,name:"Silver Arrow GT",    tag:"Arrow through air.",             cat:"gt",       badge:"NEW",      price:335000, power:610,  accel:2.9, drive:"AWD", img:"images/car-3.png"},
+  {id:26,name:"Noir Prestige",      tag:"Dark sophistication.",           cat:"gt",       badge:"",         price:356000, power:630,  accel:2.8, drive:"RWD", img:"images/car-6.jpg"},
+  {id:27,name:"Ivory Tourer",       tag:"Grand, graceful.",               cat:"gt",       badge:"",         price:289000, power:520,  accel:3.2, drive:"RWD", img:"images/car-9.jpg"},
+  {id:28,name:"Obsidian GT Plus",   tag:"More than dark.",                cat:"gt",       badge:"LIMITED",  price:372000, power:660,  accel:2.7, drive:"AWD", img:"images/car-3.png"},
+  {id:29,name:"Emerald Voyage",     tag:"Rare on the road.",              cat:"gt",       badge:"",         price:318000, power:575,  accel:3.0, drive:"RWD", img:"images/car-12.jpg"},
+  {id:30,name:"Crimson Cruiser",    tag:"Every mile, vivid.",             cat:"gt",       badge:"",         price:345000, power:625,  accel:2.9, drive:"AWD", img:"images/car-6.jpg"},
+  {id:31,name:"Aurora Drift",       tag:"Chasing the aurora.",            cat:"gt",       badge:"HOT",      price:362000, power:640,  accel:2.8, drive:"AWD", img:"images/car-9.jpg"},
+  {id:32,name:"Velvet Thunder",     tag:"Smooth but loud.",               cat:"gt",       badge:"",         price:329000, power:600,  accel:2.9, drive:"RWD", img:"images/car-3.png"},
+
+  // LUXURY SUV
+  {id:33,name:"Onyx Predator",      tag:"Dominance, refined.",            cat:"suv",      badge:"SUV",      price:378000, power:710,  accel:3.2, drive:"AWD", img:"images/car-5.jpg"},
+  {id:34,name:"Titan Commander",    tag:"Lead every convoy.",             cat:"suv",      badge:"NEW",      price:395000, power:680,  accel:3.4, drive:"AWD", img:"images/car-10.jpg"},
+  {id:35,name:"Black Summit",       tag:"Summit of power.",               cat:"suv",      badge:"",         price:412000, power:750,  accel:3.1, drive:"AWD", img:"images/car-5.jpg"},
+  {id:36,name:"Noir Fortress",      tag:"Impenetrable luxury.",           cat:"suv",      badge:"LIMITED",  price:435000, power:780,  accel:3.0, drive:"AWD", img:"images/car-10.jpg"},
+  {id:37,name:"Arctic Wolf",        tag:"Cold. Calculated.",              cat:"suv",      badge:"",         price:358000, power:640,  accel:3.5, drive:"AWD", img:"images/car-5.jpg"},
+  {id:38,name:"Gold Crown SUV",     tag:"Rule in comfort.",               cat:"suv",      badge:"FLAGSHIP", price:448000, power:820,  accel:2.9, drive:"AWD", img:"images/car-10.jpg"},
+  {id:39,name:"Shadow Peak",        tag:"Peaks conquered.",               cat:"suv",      badge:"",         price:382000, power:700,  accel:3.3, drive:"AWD", img:"images/car-5.jpg"},
+  {id:40,name:"Obsidian Ridge",     tag:"Ridge runner.",                  cat:"suv",      badge:"",         price:425000, power:760,  accel:3.1, drive:"AWD", img:"images/car-10.jpg"},
+  {id:41,name:"Storm Rider 4×4",   tag:"Built for chaos.",               cat:"suv",      badge:"HOT",      price:398000, power:720,  accel:3.2, drive:"AWD", img:"images/car-5.jpg"},
+  {id:42,name:"Apex Terrain",       tag:"No road needed.",                cat:"suv",      badge:"",         price:415000, power:740,  accel:3.3, drive:"AWD", img:"images/car-10.jpg"},
+
+  // ELECTRIC
+  {id:43,name:"Volta Titan",        tag:"Silent devastation.",            cat:"electric", badge:"ELECTRIC", price:298000, power:1020, accel:2.0, drive:"AWD", img:"images/car-8.jpg"},
+  {id:44,name:"Electron Rush",      tag:"Pure kinetic art.",              cat:"electric", badge:"ELECTRIC", price:325000, power:870,  accel:2.2, drive:"AWD", img:"images/car-2.png"},
+  {id:45,name:"Spark Apex",         tag:"Electrify the apex.",            cat:"electric", badge:"NEW",      price:412000, power:1150, accel:1.8, drive:"AWD", img:"images/car-8.jpg"},
+  {id:46,name:"Charge Phantom",     tag:"Charge the legend.",             cat:"electric", badge:"ELECTRIC", price:445000, power:1080, accel:1.9, drive:"AWD", img:"images/car-2.png"},
+  {id:47,name:"Zero Emission GT",   tag:"Green without guilt.",           cat:"electric", badge:"ELECTRIC", price:385000, power:920,  accel:2.1, drive:"AWD", img:"images/car-8.jpg"},
+  {id:48,name:"Ionic Sovereign",    tag:"Power redefined.",               cat:"electric", badge:"LIMITED",  price:498000, power:1200, accel:1.7, drive:"AWD", img:"images/car-2.png"},
+  {id:49,name:"Voltex Racer",       tag:"Zero emissions, full fury.",     cat:"electric", badge:"HOT",      price:362000, power:990,  accel:2.0, drive:"AWD", img:"images/car-8.jpg"},
+
+  // CLASSIC / HERITAGE
+  {id:50,name:"Veyron Heritage I",  tag:"Where it began.",                cat:"classic",  badge:"HERITAGE", price:620000, power:450,  accel:5.2, drive:"RWD", img:"images/car-7.jpg"},
+  {id:51,name:"Golden Era V12",     tag:"Twelve cylinders, one legend.",  cat:"classic",  badge:"RARE",     price:890000, power:380,  accel:5.8, drive:"RWD", img:"images/car-7.jpg"},
+  {id:52,name:"Midnight Classic",   tag:"Timeless in black.",             cat:"classic",  badge:"HERITAGE", price:540000, power:420,  accel:5.5, drive:"RWD", img:"images/car-7.jpg"},
+  {id:53,name:"Heritage Tourer",    tag:"A journey through time.",        cat:"classic",  badge:"RARE",     price:710000, power:395,  accel:5.9, drive:"RWD", img:"images/car-7.jpg"},
+  {id:54,name:"Vintage Apex",       tag:"Apex of its era.",               cat:"classic",  badge:"HERITAGE", price:475000, power:410,  accel:5.4, drive:"RWD", img:"images/car-7.jpg"},
+  {id:55,name:"Legacy Phantom",     tag:"Phantoms never fade.",           cat:"classic",  badge:"RARE",     price:820000, power:440,  accel:5.1, drive:"RWD", img:"images/car-7.jpg"},
+
+  // BESPOKE COMMISSION
+  {id:56,name:"Tailored One",       tag:"One of one.",                    cat:"bespoke",  badge:"BESPOKE",  price:1200000,power:0,    accel:0,   drive:"AWD", img:"images/car-11.jpg"},
+  {id:57,name:"Bespoke Edition",    tag:"Your vision, our craft.",        cat:"bespoke",  badge:"BESPOKE",  price:1450000,power:0,    accel:0,   drive:"AWD", img:"images/car-4.jpg"},
+  {id:58,name:"Commission Alpha",   tag:"Commission the impossible.",     cat:"bespoke",  badge:"BESPOKE",  price:2100000,power:0,    accel:0,   drive:"AWD", img:"images/car-12.jpg"},
+  {id:59,name:"Custom Excellence",  tag:"Perfection by design.",          cat:"bespoke",  badge:"BESPOKE",  price:980000, power:0,    accel:0,   drive:"AWD", img:"images/car-11.jpg"},
+  {id:60,name:"Private Collection", tag:"Reserved for the few.",          cat:"bespoke",  badge:"RARE",     price:1750000,power:0,    accel:0,   drive:"AWD", img:"images/car-4.jpg"},
+  {id:61,name:"Atelier Edition",    tag:"From the atelier.",              cat:"bespoke",  badge:"BESPOKE",  price:3200000,power:0,    accel:0,   drive:"AWD", img:"images/car-12.jpg"},
+];
+
+// ─── STATE ────────────────────────────────────────────────────────
+var state = {
+  cat: 'all',
+  search: '',
+  sort: 'default',
+  view: 'grid',
+  page: 1,
+  perPage: 18,
+};
+
+// ─── BADGE CLASSES ────────────────────────────────────────────────
+function badgeClass(b) {
+  var map = {RARE:'badge-rare',NEW:'badge-new',ELECTRIC:'badge-electric',HERITAGE:'badge-heritage'};
+  return map[b] || '';
+}
+
+// ─── FORMAT PRICE ─────────────────────────────────────────────────
+function fmtPrice(n) {
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(n%1000000===0?0:1) + 'M';
+  return '$' + (n/1000).toFixed(0) + 'K';
+}
+
+// ─── BUILD SPECS ──────────────────────────────────────────────────
+function buildSpecs(c) {
+  var specs = [];
+  if (c.power > 0) specs.push({v: c.power.toLocaleString() + ' HP', custom: false});
+  else specs.push({v: 'Custom HP', custom: true});
+  if (c.accel > 0) specs.push({v: '0–60 in ' + c.accel + 's', custom: false});
+  else specs.push({v: 'Commission', custom: true});
+  specs.push({v: c.drive, custom: false});
+  return specs.map(function(s){
+    return '<span class="car-spec' + (s.custom?' spec-custom':'') + '">' + s.v + '</span>';
+  }).join('');
+}
+
+// ─── RENDER CARD ──────────────────────────────────────────────────
+function renderCard(c, idx) {
+  var badge = c.badge
+    ? '<div class="car-badge ' + badgeClass(c.badge) + '">' + c.badge + '</div>'
+    : '';
+  var delay = idx % 3;
+  var delayCls = ['rd1','rd2','rd3'][delay];
+  return (
+    '<article class="car-card reveal ' + delayCls + '" data-id="' + c.id + '">' +
+      '<div class="car-img-wrap">' +
+        '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy" />' +
+        badge +
+        '<div class="car-img-fade"></div>' +
+        '<div class="car-num">#' + String(c.id).padStart(2,'0') + '</div>' +
+      '</div>' +
+      '<div class="car-body">' +
+        '<p class="car-tag">' + c.tag + '</p>' +
+        '<h3 class="car-name">' + c.name + '</h3>' +
+        '<div class="car-specs">' + buildSpecs(c) + '</div>' +
+        '<div class="car-footer">' +
+          '<div>' +
+            '<p class="car-price-label">Starting from</p>' +
+            '<p class="car-price">' + fmtPrice(c.price) + '</p>' +
+          '</div>' +
+          '<a href="#enquire" class="btn-outline" style="padding:8px 20px;font-size:10px">Enquire</a>' +
+        '</div>' +
+      '</div>' +
+    '</article>'
+  );
+}
+
+// ─── FILTER + SORT ────────────────────────────────────────────────
+function getFiltered() {
+  var q = state.search.toLowerCase();
+  var list = CARS.filter(function(c) {
+    if (state.cat !== 'all' && c.cat !== state.cat) return false;
+    if (q && c.name.toLowerCase().indexOf(q) === -1 &&
+            c.tag.toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+
+  switch(state.sort) {
+    case 'price-asc':  list.sort(function(a,b){return a.price-b.price}); break;
+    case 'price-desc': list.sort(function(a,b){return b.price-a.price}); break;
+    case 'power-desc': list.sort(function(a,b){return b.power-a.power}); break;
+    case 'power-asc':  list.sort(function(a,b){return a.power-b.power}); break;
+    case 'speed-asc':  list.sort(function(a,b){return (a.accel||99)-(b.accel||99)}); break;
+    case 'name-asc':   list.sort(function(a,b){return a.name.localeCompare(b.name)}); break;
+  }
+  return list;
+}
+
+// ─── INTERSECTION OBSERVER ────────────────────────────────────────
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+function observeCards() {
+  document.querySelectorAll('.car-card.reveal:not(.visible)').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────
+var currentFiltered = [];
+
+function render(reset) {
+  if (reset) state.page = 1;
+  currentFiltered = getFiltered();
+  var total = currentFiltered.length;
+  var showing = Math.min(state.page * state.perPage, total);
+  var chunk = currentFiltered.slice(0, showing);
+
+  var grid = document.getElementById('carsGrid');
+  var empty = document.getElementById('emptyState');
+  var loadBtn = document.getElementById('loadMoreBtn');
+  var loadWrap = document.getElementById('loadMoreWrap');
+  var resultsNum = document.getElementById('resultsNum');
+
+  // Update count
+  resultsNum.textContent = total;
+
+  // Empty state
+  if (total === 0) {
+    grid.innerHTML = '';
+    empty.classList.add('show');
+    loadWrap.style.display = 'none';
+    return;
+  }
+  empty.classList.remove('show');
+
+  // Render cards
+  grid.innerHTML = chunk.map(function(c, i){ return renderCard(c, i); }).join('');
+
+  // Load more
+  if (showing < total) {
+    loadWrap.style.display = 'block';
+    loadBtn.classList.remove('hidden');
+    loadBtn.textContent = '';
+    loadBtn.innerHTML = 'Load More Vehicles (' + (total - showing) + ' remaining)<svg style="margin-left:10px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>';
+  } else {
+    loadWrap.style.display = 'none';
+  }
+
+  // Apply view
+  applyView();
+
+  // Observe
+  setTimeout(observeCards, 30);
+}
+
+// ─── VIEW MODE ────────────────────────────────────────────────────
+function applyView() {
+  var grid = document.getElementById('carsGrid');
+  if (state.view === 'list') {
+    grid.classList.add('view-list');
+  } else {
+    grid.classList.remove('view-list');
+  }
+}
+
+// ─── LOAD MORE ────────────────────────────────────────────────────
+document.getElementById('loadMoreBtn').addEventListener('click', function() {
+  state.page++;
+  var total = currentFiltered.length;
+  var showing = Math.min(state.page * state.perPage, total);
+  var newChunk = currentFiltered.slice(0, showing);
+  var grid = document.getElementById('carsGrid');
+  var loadWrap = document.getElementById('loadMoreWrap');
+  var loadBtn = document.getElementById('loadMoreBtn');
+
+  // Append only new cards
+  var existingCount = grid.children.length;
+  var newCards = newChunk.slice(existingCount);
+  newCards.forEach(function(c, i) {
+    var tmp = document.createElement('div');
+    tmp.innerHTML = renderCard(c, existingCount + i);
+    var card = tmp.firstElementChild;
+    grid.appendChild(card);
+  });
+
+  if (showing >= total) {
+    loadWrap.style.display = 'none';
+  } else {
+    loadBtn.innerHTML = 'Load More Vehicles (' + (total - showing) + ' remaining)<svg style="margin-left:10px" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>';
+  }
+
+  setTimeout(observeCards, 30);
+});
+
+// ─── CATEGORY TABS ────────────────────────────────────────────────
+document.getElementById('catTabs').querySelectorAll('.cat-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.cat-tab').forEach(function(t){ t.classList.remove('active'); });
+    tab.classList.add('active');
+    state.cat = tab.getAttribute('data-cat');
+    render(true);
+  });
+});
+
+// ─── SEARCH ───────────────────────────────────────────────────────
+var searchTimeout;
+document.getElementById('searchInput').addEventListener('input', function(e) {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(function() {
+    state.search = e.target.value;
+    render(true);
+  }, 220);
+});
+
+// ─── SORT ─────────────────────────────────────────────────────────
+document.getElementById('sortSelect').addEventListener('change', function(e) {
+  state.sort = e.target.value;
+  render(true);
+});
+
+// ─── VIEW TOGGLE ──────────────────────────────────────────────────
+document.getElementById('viewGrid').addEventListener('click', function() {
+  state.view = 'grid';
+  document.getElementById('viewGrid').classList.add('active');
+  document.getElementById('viewList').classList.remove('active');
+  applyView();
+});
+document.getElementById('viewList').addEventListener('click', function() {
+  state.view = 'list';
+  document.getElementById('viewList').classList.add('active');
+  document.getElementById('viewGrid').classList.remove('active');
+  applyView();
+  setTimeout(observeCards, 50);
+});
+
+// ─── NAVBAR SCROLL ────────────────────────────────────────────────
+var navbar = document.getElementById('navbar');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 10) {
+    navbar.style.background = 'rgba(0,0,0,0.97)';
+    navbar.style.borderBottomColor = 'rgba(201,168,76,0.12)';
+  } else {
+    navbar.style.background = 'rgba(0,0,0,0.9)';
+    navbar.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+  }
+}, { passive: true });
+
+// ─── SMOOTH SCROLL ────────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var href = a.getAttribute('href');
+    if (href === '#') return;
+    var target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+});
+
+// ─── HAMBURGER ────────────────────────────────────────────────────
+var hamburger = document.getElementById('hamburger');
+hamburger.addEventListener('click', function() {
+  // simple mobile nav fallback
+  var existing = document.getElementById('mobileNav');
+  if (existing) { existing.remove(); return; }
+  var nav = document.createElement('div');
+  nav.id = 'mobileNav';
+  nav.style.cssText = 'position:fixed;top:68px;left:0;right:0;z-index:299;background:rgba(0,0,0,0.98);padding:24px 28px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;gap:16px;animation:fadeInDown .25s ease';
+  nav.innerHTML = '<a href="luxury-cars.html" style="font-family:var(--font-d);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7)">← Back to Home</a>' +
+    '<a href="#enquire" style="font-family:var(--font-d);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Book a Viewing</a>';
+  document.body.appendChild(nav);
+  nav.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ nav.remove(); }); });
+});
+
+// ─── PAGE REVEAL ──────────────────────────────────────────────────
+var pageRevealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      pageRevealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(function(el) {
+  pageRevealObserver.observe(el);
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────
+render(true);
+</script>
+
+</body>
+</html>

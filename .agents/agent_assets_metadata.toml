@@ -6,3 +6,9 @@ id = "8Mlwpr4bRMXuMaV1BLz7M"
 uri = "file://artifacts/mockup-sandbox/public/luxury-cars.html"
 type = "unspecified"
 title = "Veyron Motors — 6 Cars + Scroll Animations (HTML + CSS)"
+
+[[outputs]]
+id = "pUPxpfTaqjFDpcJBwuHVi"
+uri = "file://artifacts/mockup-sandbox/public/collection.html"
+type = "unspecified"
+title = "Veyron Motors — Full Collection Page (61 Cars)"
