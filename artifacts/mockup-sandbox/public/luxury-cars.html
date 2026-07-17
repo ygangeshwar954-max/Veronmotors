@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veyron Motors — The Art of Performance</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
+
+  <style>
+    /* ─── CSS RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    a { text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    ul, ol { list-style: none; }
+
+    /* ─── DESIGN TOKENS ─────────────────────────────────────────── */
+    :root {
+      --gold:          #C9A84C;
+      --gold-light:    #E8C76A;
+      --gold-dark:     #9A7A2E;
+      --black:         #000000;
+      --black-1:       #080808;
+      --black-2:       #111111;
+      --black-3:       #1A1A1A;
+      --black-4:       #242424;
+      --white:         #FFFFFF;
+      --gray-1:        #F5F5F5;
+      --gray-2:        #9CA3AF;
+      --gray-3:        #6B7280;
+      --glass-bg:      rgba(255,255,255,0.04);
+      --glass-border:  rgba(255,255,255,0.08);
+      --font-display:  'Montserrat', sans-serif;
+      --font-body:     'Space Grotesk', sans-serif;
+      --transition:    all 0.3s ease;
+    }
+
+    /* ─── BASE ──────────────────────────────────────────────────── */
+    body {
+      font-family: var(--font-body);
+      background-color: var(--black-1);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black-1); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+
+    /* ─── ANIMATIONS ────────────────────────────────────────────── */
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0   rgba(201,168,76,0.4); }
+      50%       { box-shadow: 0 0 0 8px rgba(201,168,76,0); }
+    }
+
+    .anim-1 { animation: fadeInUp 0.8s ease both; }
+    .anim-2 { animation: fadeInUp 0.8s 0.15s ease both; }
+    .anim-3 { animation: fadeInUp 0.8s 0.3s  ease both; }
+    .anim-4 { animation: fadeInUp 0.8s 0.45s ease both; }
+    .anim-5 { animation: fadeInUp 0.8s 0.6s  ease both; }
+
+    /* ─── UTILITY ───────────────────────────────────────────────── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 80px; }
+
+    .text-gold-shimmer {
+      background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold-light) 40%, var(--gold) 60%, var(--gold-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+
+    .glass {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .gold-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 20px auto 0;
+    }
+
+    .sep { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent); }
+
+    /* ─── BUTTONS ────────────────────────────────────────────────── */
+    .btn-gold {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      color: var(--black);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: var(--transition);
+      box-shadow: 0 4px 24px rgba(201,168,76,0.25);
+      white-space: nowrap;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 36px rgba(201,168,76,0.45);
+    }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm { padding: 10px 24px; font-size: 11px; }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-logo-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 18px rgba(201,168,76,0.28);
+    }
+    .nav-logo-icon svg { width: 18px; height: 18px; }
+    .nav-logo-text {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--gray-2);
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+      transition: color 0.25s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* hamburger (mobile) */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px; height: 1.5px;
+      background: var(--white);
+      transition: var(--transition);
+    }
+
+    /* ─── HERO ───────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/hero-car.png');
+      background-size: cover;
+      background-position: center right;
+      background-repeat: no-repeat;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        130deg,
+        rgba(0,0,0,0.93) 0%,
+        rgba(0,0,0,0.72) 42%,
+        rgba(0,0,0,0.25) 70%,
+        rgba(0,0,0,0.05) 100%
+      );
+    }
+
+    .hero-glow {
+      position: absolute;
+      bottom: -120px; left: 8%;
+      width: 700px; height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+      filter: blur(50px);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      padding: 140px 80px 100px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(201,168,76,0.32);
+      background: rgba(201,168,76,0.06);
+      margin-bottom: 30px;
+    }
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+    }
+    .hero-eyebrow span {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 26px;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.55);
+      max-width: 460px;
+      margin-bottom: 52px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 72px;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 52px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .hero-scroll-text {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* Hero stats strip */
+    .hero-stats {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 3;
+      display: flex;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .hero-stat {
+      flex: 1;
+      padding: 22px 0;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-value {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--white), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-stat-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-top: 4px;
+    }
+
+    /* ─── COLLECTION ─────────────────────────────────────────────── */
+    .collection {
+      padding: 120px 0;
+      background: var(--black-2);
+    }
+    .collection-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .cars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+
+    .car-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all 0.45s ease;
+    }
+    .car-card:hover {
+      border-color: rgba(201,168,76,0.32);
+      transform: translateY(-8px);
+      box-shadow: 0 28px 64px rgba(0,0,0,0.65), 0 0 44px rgba(201,168,76,0.07);
+    }
+
+    .car-img-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 230px;
+    }
+    .car-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.65s ease;
+    }
+    .car-card:hover .car-img-wrap img { transform: scale(1.06); }
+
+    .car-badge {
+      position: absolute;
+      top: 16px; left: 16px;
+      padding: 5px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(201,168,76,0.5);
+      background: rgba(201,168,76,0.1);
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--gold-light);
+    }
+    .car-img-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 90px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    }
+
+    .car-body {
+      padding: 26px 30px 32px;
+    }
+    .car-tag {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-bottom: 8px;
+    }
+    .car-name {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 18px;
+    }
+    .car-specs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .car-spec {
+      padding: 5px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      font-size: 12px;
+      color: var(--gray-2);
+    }
+    .car-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .car-price-label {
+      font-size: 10px;
+      color: var(--gray-3);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .car-price {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .collection-cta { text-align: center; margin-top: 56px; }
+
+    /* ─── EXPERIENCE ─────────────────────────────────────────────── */
+    .experience {
+      padding: 120px 0;
+      background: var(--black-1);
+    }
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 88px;
+      align-items: center;
+    }
+
+    .exp-img-wrap {
+      position: relative;
+    }
+    .exp-img {
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .exp-img img {
+      width: 100%;
+      height: 540px;
+      object-fit: cover;
+    }
+    .exp-float-card {
+      position: absolute;
+      bottom: -24px; right: -24px;
+      padding: 22px 32px;
+      border-radius: 18px;
+      animation: float 3.5s ease-in-out infinite;
+    }
+    .exp-float-val {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--gold-light);
+    }
+    .exp-float-lbl {
+      font-size: 12px;
+      color: var(--gray-2);
+      margin-top: 4px;
+    }
+    .exp-accent-bar {
+      position: absolute;
+      top: 48px; left: -28px;
+      width: 3px; height: 130px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    .exp-text .section-label { text-align: left; }
+
+    .exp-title { margin-bottom: 28px; }
+
+    .exp-desc {
+      font-size: 16px;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.52);
+      margin-bottom: 44px;
+    }
+
+    .exp-features { margin-bottom: 52px; }
+    .exp-feature {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .exp-feature-icon {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .exp-feature-icon svg { width: 10px; height: 8px; }
+    .exp-feature-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.68);
+      line-height: 1.6;
+    }
+
+    /* ─── BRANDS ─────────────────────────────────────────────────── */
+    .brands {
+      padding: 40px 0;
+      background: var(--black-1);
+    }
+    .brands-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .brands-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      margin-right: 28px;
+      white-space: nowrap;
+    }
+    .brand-item {
+      padding: 8px 22px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.13em;
+      color: rgba(255,255,255,0.18);
+      border-right: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.3s;
+      cursor: default;
+    }
+    .brand-item:last-child { border-right: none; }
+    .brand-item:hover { color: rgba(201,168,76,0.7); }
+
+    /* ─── TESTIMONIALS ───────────────────────────────────────────── */
+    .testimonials {
+      padding: 120px 0;
+      background: var(--black-2);
+    }
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+    .testimonial-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 36px;
+      transition: var(--transition);
+    }
+    .testimonial-card:hover {
+      border-color: rgba(201,168,76,0.2);
+      background: rgba(255,255,255,0.07);
+    }
+    .t-stars { display: flex; gap: 4px; margin-bottom: 20px; }
+    .t-star { color: var(--gold); font-size: 14px; }
+    .t-quote {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+      margin-bottom: 30px;
+    }
+    .t-author { display: flex; align-items: center; gap: 14px; }
+    .t-avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--black);
+      flex-shrink: 0;
+    }
+    .t-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+    .t-title { font-size: 12px; color: var(--gray-3); }
+
+    /* ─── SIGNUP ─────────────────────────────────────────────────── */
+    .signup {
+      padding: 120px 0;
+      background: var(--black-1);
+      position: relative;
+      overflow: hidden;
+    }
+    .signup-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.05) 0%, transparent 70%);
+      filter: blur(70px);
+      pointer-events: none;
+    }
+    .signup-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .signup-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .signup-header .section-title { margin-bottom: 18px; }
+    .signup-header p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.42);
+    }
+
+    .signup-form {
+      border-radius: 28px;
+      padding: 52px 52px 56px;
+      box-shadow: 0 44px 88px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(201,168,76,0.08);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.28); }
+    .form-input:focus,
+    .form-select:focus {
+      border-color: var(--gold);
+      background: rgba(255,255,255,0.09);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+    }
+    .form-select option { background: #111; color: #fff; }
+
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 18px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-3);
+      pointer-events: none;
+      font-size: 12px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 17px;
+      margin-top: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      color: var(--black);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: var(--transition);
+      box-shadow: 0 6px 28px rgba(201,168,76,0.28);
+    }
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(201,168,76,0.46);
+    }
+
+    .form-note {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+      line-height: 1.7;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 48px 0;
+    }
+    .form-success.show { display: block; }
+    .form-success-icon {
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 26px;
+      box-shadow: 0 0 28px rgba(201,168,76,0.35);
+    }
+    .form-success-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .form-success-text {
+      font-size: 15px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.75;
+    }
+
+    /* ─── FAQ ────────────────────────────────────────────────────── */
+    .faq {
+      padding: 110px 0;
+      background: var(--black-2);
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 88px;
+      align-items: start;
+    }
+    .faq-left { position: sticky; top: 100px; }
+    .faq-left .section-title { margin-bottom: 22px; }
+    .faq-left-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.85;
+      margin-bottom: 36px;
+    }
+
+    .faq-right { }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 0;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--white);
+      transition: color 0.25s;
+      user-select: none;
+    }
+    .faq-question:hover { color: var(--gold-light); }
+    .faq-icon {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.35s ease;
+      color: rgba(255,255,255,0.5);
+    }
+    .faq-item.open .faq-icon {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: rotate(45deg);
+    }
+    .faq-item.open .faq-question { color: var(--gold-light); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.42s ease, opacity 0.32s ease, padding 0.32s ease;
+      opacity: 0;
+      font-size: 14px;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.5);
+      padding-bottom: 0;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 220px;
+      opacity: 1;
+      padding-bottom: 24px;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    .footer {
+      background: var(--black);
+      padding: 72px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 52px;
+      padding-bottom: 52px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-brand-logo {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 22px;
+    }
+    .footer-brand-icon {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .footer-brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: 0.18em;
+    }
+    .footer-brand-desc {
+      font-size: 13px;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.3);
+      max-width: 270px;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .footer-social {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 10px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.05em;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .footer-social:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .footer-col-title {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 22px;
+    }
+    .footer-col-links { display: flex; flex-direction: column; gap: 14px; }
+    .footer-col-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.28);
+      transition: color 0.25s;
+    }
+    .footer-col-links a:hover { color: var(--gold-light); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 30px;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.18);
+    }
+    .footer-legal {
+      display: flex;
+      gap: 28px;
+    }
+    .footer-legal a {
+      font-size: 12px;
+      color: rgba(255,255,255,0.18);
+      transition: color 0.25s;
+    }
+    .footer-legal a:hover { color: rgba(255,255,255,0.45); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .container { padding: 0 48px; }
+      .navbar { padding: 0 40px; }
+      .hero-content { padding: 130px 48px 100px; }
+      .cars-grid { grid-template-columns: 1fr 1fr; }
+      .experience-grid { gap: 56px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .navbar { padding: 0 24px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero-content { padding: 110px 24px 80px; max-width: 100%; }
+      .hero-stats { flex-wrap: wrap; }
+      .hero-stat { min-width: 50%; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .cars-grid { grid-template-columns: 1fr; }
+      .experience-grid { grid-template-columns: 1fr; }
+      .exp-float-card { right: 0; bottom: -16px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; gap: 48px; }
+      .faq-left { position: static; }
+      .form-row { grid-template-columns: 1fr; }
+      .signup-form { padding: 36px 24px 40px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-legal { flex-wrap: wrap; justify-content: center; }
+      .brands-inner { flex-wrap: wrap; gap: 0; }
+      .brand-item { font-size: 11px; padding: 6px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ───────────────────────────────────────────
+       NAVBAR
+  ─────────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">Veyron</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#testimonials">Stories</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#signup">Contact</a></li>
+    </ul>
+
+    <a href="#signup" class="btn-gold btn-sm">Book a Viewing</a>
+
+    <div class="nav-hamburger" id="hamburger" aria-label="Menu" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- ───────────────────────────────────────────
+       HERO
+  ─────────────────────────────────────────── -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-content">
+      <!-- Eyebrow -->
+      <div class="hero-eyebrow anim-1">
+        <div class="hero-eyebrow-dot"></div>
+        <span>2025 Collection — Now Available</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="hero-headline anim-2">
+        Drive Beyond<br>
+        <span class="text-gold-shimmer">Imagination.</span>
+      </h1>
+
+      <!-- Sub -->
+      <p class="hero-sub anim-3">
+        Veyron Motors curates the world's most exceptional performance vehicles —
+        engineered to perfection, delivered with ceremony.
+      </p>
+
+      <!-- CTAs -->
+      <div class="hero-cta anim-4">
+        <a href="#collection" class="btn-gold">Explore Collection</a>
+        <a href="#experience" class="btn-outline">Watch Film</a>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="hero-scroll anim-5">
+        <div class="hero-scroll-line"></div>
+        <span class="hero-scroll-text">Scroll to explore</span>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">28+</div>
+        <div class="hero-stat-label">Years of Excellence</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">4.2K</div>
+        <div class="hero-stat-label">Vehicles Delivered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">94%</div>
+        <div class="hero-stat-label">Client Retention</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">18</div>
+        <div class="hero-stat-label">Global Showrooms</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────
+       COLLECTION
+  ─────────────────────────────────────────── -->
+  <section class="collection" id="collection">
+    <div class="container">
+      <div class="collection-header">
+        <p class="section-label">Featured Collection</p>
+        <h2 class="section-title">Masterpieces in Motion</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="cars-grid">
+
+        <!-- Card 1 -->
+        <article class="car-card">
+          <div class="car-img-wrap">
+            <img src="images/hero-car.png" alt="Obsidian GT-R" loading="lazy" />
+            <div class="car-badge">NEW</div>
+            <div class="car-img-fade"></div>
+          </div>
+          <div class="car-body">
+            <p class="car-tag">Born from darkness.</p>
+            <h3 class="car-name">Obsidian GT-R</h3>
+            <div class="car-specs">
+              <span class="car-spec">620 HP</span>
+              <span class="car-spec">0–60 in 2.9s</span>
+              <span class="car-spec">AWD</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <p class="car-price-label">Starting from</p>
+                <p class="car-price">$289,000</p>
+              </div>
+              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="car-card">
+          <div class="car-img-wrap">
+            <img src="images/car-2.png" alt="Arctic Spectre" loading="lazy" />
+            <div class="car-badge">LIMITED</div>
+            <div class="car-img-fade"></div>
+          </div>
+          <div class="car-body">
+            <p class="car-tag">Silence and speed.</p>
+            <h3 class="car-name">Arctic Spectre</h3>
+            <div class="car-specs">
+              <span class="car-spec">720 HP</span>
+              <span class="car-spec">0–60 in 2.6s</span>
+              <span class="car-spec">RWD</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <p class="car-price-label">Starting from</p>
+                <p class="car-price">$342,000</p>
+              </div>
+              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="car-card">
+          <div class="car-img-wrap">
+            <img src="images/car-3.png" alt="Midnight Sovereign" loading="lazy" />
+            <div class="car-badge">BESPOKE</div>
+            <div class="car-img-fade"></div>
+          </div>
+          <div class="car-body">
+            <p class="car-tag">Command every road.</p>
+            <h3 class="car-name">Midnight Sovereign</h3>
+            <div class="car-specs">
+              <span class="car-spec">850 HP</span>
+              <span class="car-spec">0–60 in 2.3s</span>
+              <span class="car-spec">AWD</span>
+            </div>
+            <div class="car-footer">
+              <div>
+                <p class="car-price-label">Starting from</p>
+                <p class="car-price">$415,000</p>
+              </div>
+              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /cars-grid -->
+
+      <div class="collection-cta">
+        <a href="#signup" class="btn-outline">View Full Collection →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────
+       EXPERIENCE
+  ─────────────────────────────────────────── -->
+  <section class="experience" id="experience">
+    <div class="container">
+      <div class="experience-grid">
+
+        <!-- Image -->
+        <div class="exp-img-wrap">
+          <div class="exp-accent-bar"></div>
+          <div class="exp-img">
+            <img src="images/interior.png" alt="Luxury interior" />
+          </div>
+          <div class="exp-float-card glass">
+            <div class="exp-float-val">100%</div>
+            <div class="exp-float-lbl">Bespoke crafted</div>
+          </div>
+        </div>
+
+        <!-- Text -->
+        <div class="exp-text">
+          <p class="section-label">The Veyron Experience</p>
+          <h2 class="section-title exp-title">
+            Where Engineering<br>
+            Meets <span class="text-gold-shimmer">Artistry.</span>
+          </h2>
+          <p class="exp-desc">
+            Every Veyron vehicle is the result of thousands of hours of hand-craftsmanship,
+            precision engineering, and obsessive attention to detail. From the stitching on
+            the seats to the resonance of the exhaust note — nothing is left to chance.
+          </p>
+
+          <div class="exp-features">
+            <div class="exp-feature">
+              <div class="exp-feature-icon">
+                <svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <span class="exp-feature-text">Hand-stitched full-grain leather interiors</span>
+            </div>
+            <div class="exp-feature">
+              <div class="exp-feature-icon">
+                <svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <span class="exp-feature-text">Carbon fibre monocoque construction</span>
+            </div>
+            <div class="exp-feature">
+              <div class="exp-feature-icon">
+                <svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <span class="exp-feature-text">Bespoke exhaust tuning by acoustic engineers</span>
+            </div>
+            <div class="exp-feature">
+              <div class="exp-feature-icon">
+                <svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <span class="exp-feature-text">28-day quality inspection process</span>
+            </div>
+          </div>
+
+          <a href="#signup" class="btn-gold">Schedule a Private Tour</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────
+       BRAND STRIP
+  ─────────────────────────────────────────── -->
+  <div class="sep"></div>
+  <div class="brands">
+    <div class="brands-inner">
+      <span class="brands-label">Authorized Dealer</span>
+      <span class="brand-item">LAMBORGHINI</span>
+      <span class="brand-item">FERRARI</span>
+      <span class="brand-item">ASTON MARTIN</span>
+      <span class="brand-item">ROLLS-ROYCE</span>
+      <span class="brand-item">BENTLEY</span>
+      <span class="brand-item">McLAREN</span>
+    </div>
+  </div>
+  <div class="sep"></div>
+
+  <!-- ───────────────────────────────────────────
+       TESTIMONIALS
+  ─────────────────────────────────────────── -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="testimonials-header">
+        <p class="section-label">Client Stories</p>
+        <h2 class="section-title">Voices of Excellence</h2>
+        <div class="gold-divider"></div>
+      </div>
+
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+            <span class="t-star">★</span><span class="t-star">★</span>
+          </div>
+          <p class="t-quote">"The Obsidian GT-R is unlike anything I've experienced. Veyron redefines what a performance vehicle can be — it's art in motion."</p>
+          <div class="t-author">
+            <div class="t-avatar">AV</div>
+            <div>
+              <p class="t-name">Alexander Voss</p>
+              <p class="t-title">CEO, Voss Capital Group</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+            <span class="t-star">★</span><span class="t-star">★</span>
+          </div>
+          <p class="t-quote">"From the moment I entered the showroom, every detail was impeccable. The team understands luxury at a molecular level."</p>
+          <div class="t-author">
+            <div class="t-avatar">IM</div>
+            <div>
+              <p class="t-name">Isabelle Marchetti</p>
+              <p class="t-title">Creative Director, Luxe Studio</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="t-stars">
+            <span class="t-star">★</span><span class="t-star">★</span><span class="t-star">★</span>
+            <span class="t-star">★</span><span class="t-star">★</span>
+          </div>
+          <p class="t-quote">"My third acquisition from Veyron Motors. They've never disappointed. The Arctic Spectre is a masterpiece of engineering."</p>
+          <div class="t-author">
+            <div class="t-avatar">JH</div>
+            <div>
+              <p class="t-name">James Hartwell</p>
+              <p class="t-title">Private Investor</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────
+       SIGNUP FORM
+  ─────────────────────────────────────────── -->
+  <section class="signup" id="signup">
+    <div class="signup-glow"></div>
+    <div class="container">
+      <div class="signup-inner">
+        <div class="signup-header">
+          <p class="section-label">Private Access</p>
+          <h2 class="section-title">Join the Inner Circle</h2>
+          <p>Register for exclusive first access to new arrivals, private events, and bespoke acquisition opportunities reserved for Veyron members.</p>
+        </div>
+
+        <div class="signup-form glass">
+          <!-- Success state -->
+          <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">
+              <svg width="32" height="26" viewBox="0 0 32 26" fill="none">
+                <path d="M2 13l10 10L30 2" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="form-success-title">Welcome to Veyron.</h3>
+            <p class="form-success-text">Your membership request has been received.<br>A private advisor will be in touch within 24 hours.</p>
+          </div>
+
+          <!-- Form -->
+          <form id="signupForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="fname">Full Name</label>
+                <input class="form-input" id="fname" type="text" placeholder="Alexander Voss" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="femail">Email Address</label>
+                <input class="form-input" id="femail" type="email" placeholder="alex@example.com" required />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label class="form-label" for="fphone">Phone (optional)</label>
+              <input class="form-input" id="fphone" type="tel" placeholder="+1 (555) 000-0000" />
+            </div>
+
+            <div class="form-group" style="margin-bottom: 30px;">
+              <label class="form-label" for="finterest">Vehicle Interest</label>
+              <div class="select-wrap">
+                <select class="form-input form-select" id="finterest" required>
+                  <option value="">Select your preference…</option>
+                  <option value="supercar">Supercar / Hypercar</option>
+                  <option value="gt">Grand Tourer</option>
+                  <option value="suv">Ultra-Luxury SUV</option>
+                  <option value="bespoke">Bespoke Commission</option>
+                  <option value="investment">Collector / Investment</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="form-submit">Request Membership</button>
+
+            <p class="form-note">
+              Your information is kept strictly confidential and never shared with third parties.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────
+       FAQ
+  ─────────────────────────────────────────── -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="faq-grid">
+
+        <!-- Left label -->
+        <div class="faq-left">
+          <p class="section-label">FAQ</p>
+          <h2 class="section-title">Everything<br>You Need<br>to Know.</h2>
+          <p class="faq-left-desc">Have a question not answered here? Our private advisors are available around the clock.</p>
+          <a href="#signup" class="btn-outline btn-sm">Contact an Advisor</a>
+        </div>
+
+        <!-- Accordion -->
+        <div class="faq-right">
+
+          <div class="faq-item">
+            <div class="faq-question" role="button" tabindex="0">
+              What financing options are available for Veyron vehicles?
+              <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">We offer bespoke financing solutions tailored to your portfolio, including balloon financing, lease programs, and direct purchase arrangements through our partner banks globally.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" role="button" tabindex="0">
+              How does the bespoke customization process work?
+              <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">Our atelier team works directly with you across 4–6 design sessions to configure your vehicle's exterior, interior, and mechanical specifications. Lead time is typically 14–20 weeks from final sign-off.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" role="button" tabindex="0">
+              Do you offer white-glove delivery worldwide?
+              <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">Yes. Every Veyron vehicle is delivered by our concierge logistics team with full insurance, enclosed transport, and a personal handover experience at your chosen location anywhere in the world.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" role="button" tabindex="0">
+              What warranty and maintenance programs are included?
+              <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">All vehicles include a 5-year unlimited-kilometre factory warranty, complimentary annual servicing for 3 years, and 24/7 roadside concierge across 40+ countries through our global partner network.</div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question" role="button" tabindex="0">
+              Can I schedule a private test drive experience?
+              <div class="faq-icon">+</div>
+            </div>
+            <div class="faq-answer">Absolutely. Our private experience days are held at curated track venues and scenic routes. Register your interest through the form above and a specialist will arrange the perfect event for you.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────────────────────
+       FOOTER
+  ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <!-- Brand -->
+        <div>
+          <div class="footer-brand-logo">
+            <div class="footer-brand-icon">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span class="footer-brand-name">Veyron</span>
+          </div>
+          <p class="footer-brand-desc">The world's most exceptional automotive collection. Curated for those who refuse compromise.</p>
+          <div class="footer-socials">
+            <div class="footer-social">IG</div>
+            <div class="footer-social">TW</div>
+            <div class="footer-social">LI</div>
+            <div class="footer-social">YT</div>
+          </div>
+        </div>
+
+        <!-- Collection -->
+        <div>
+          <p class="footer-col-title">Collection</p>
+          <div class="footer-col-links">
+            <a href="#">Supercars</a>
+            <a href="#">Grand Tourers</a>
+            <a href="#">Luxury SUVs</a>
+            <a href="#">Classic Cars</a>
+            <a href="#">Pre-Owned</a>
+          </div>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <p class="footer-col-title">Company</p>
+          <div class="footer-col-links">
+            <a href="#">About Veyron</a>
+            <a href="#">Showrooms</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+            <a href="#">Sustainability</a>
+          </div>
+        </div>
+
+        <!-- Services -->
+        <div>
+          <p class="footer-col-title">Services</p>
+          <div class="footer-col-links">
+            <a href="#">Financing</a>
+            <a href="#">Insurance</a>
+            <a href="#">Delivery</a>
+            <a href="#">Maintenance</a>
+            <a href="#">Trade-In</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 Veyron Motors. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Cookie Preferences</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ───────────────────────────────────────────
+       VANILLA JS — INTERACTIONS
+  ─────────────────────────────────────────── -->
+  <script>
+    // ── FAQ Accordion ───────────────────────────────
+    document.querySelectorAll('.faq-question').forEach(function(q) {
+      q.addEventListener('click', function() {
+        var item = q.closest('.faq-item');
+        var isOpen = item.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-item.open').forEach(function(el) {
+          el.classList.remove('open');
+        });
+
+        // Toggle clicked
+        if (!isOpen) item.classList.add('open');
+      });
+
+      // Keyboard support
+      q.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); q.click(); }
+      });
+    });
+
+    // ── Form Submit ─────────────────────────────────
+    var form = document.getElementById('signupForm');
+    var success = document.getElementById('formSuccess');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('fname').value.trim();
+      var email = document.getElementById('femail').value.trim();
+      var interest = document.getElementById('finterest').value;
+
+      if (!name || !email || !interest) {
+        // Highlight empty required fields
+        [['fname', name], ['femail', email], ['finterest', interest]].forEach(function(pair) {
+          var el = document.getElementById(pair[0]);
+          if (!pair[1]) {
+            el.style.borderColor = 'rgba(239,68,68,0.6)';
+            el.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.1)';
+            el.addEventListener('input', function() {
+              el.style.borderColor = '';
+              el.style.boxShadow = '';
+            }, { once: true });
+          }
+        });
+        return;
+      }
+
+      form.style.opacity = '0';
+      form.style.transition = 'opacity 0.3s ease';
+      setTimeout(function() {
+        form.style.display = 'none';
+        success.classList.add('show');
+        success.style.animation = 'fadeIn 0.5s ease both';
+      }, 300);
+    });
+
+    // ── Navbar scroll effect ─────────────────────────
+    var navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 60) {
+        navbar.style.background = 'rgba(0,0,0,0.95)';
+        navbar.style.borderBottomColor = 'rgba(201,168,76,0.12)';
+      } else {
+        navbar.style.background = 'rgba(0,0,0,0.82)';
+        navbar.style.borderBottomColor = 'rgba(255,255,255,0.05)';
+      }
+    });
+
+    // ── Smooth anchor scroll ─────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ── Hamburger (mobile) ───────────────────────────
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', function() {
+      var open = navLinks.style.display === 'flex';
+      navLinks.style.display = open ? 'none' : 'flex';
+      navLinks.style.flexDirection = 'column';
+      navLinks.style.position = 'absolute';
+      navLinks.style.top = '72px';
+      navLinks.style.left = '0';
+      navLinks.style.right = '0';
+      navLinks.style.background = 'rgba(0,0,0,0.98)';
+      navLinks.style.padding = '24px 32px';
+      navLinks.style.gap = '18px';
+      navLinks.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+      if (open) navLinks.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
