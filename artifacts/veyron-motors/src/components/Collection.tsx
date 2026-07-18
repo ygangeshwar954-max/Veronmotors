@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Settings } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Autoplay, Pagination, Keyboard } from 'swiper/modules';
@@ -18,22 +17,7 @@ const coverflowCars = [
   { id: 8, name: "Bugatti Chiron Pur Sport", maker: "Bugatti", year: 2021, price: "$3,600,000", hp: "1500 HP", acceleration: "2.3s", engine: "W16 Quad-Turbo", img: "/images/car-12.jpg" },
 ];
 
-const gridCars = [
-  { id: 101, name: "Ferrari SF90 Stradale", maker: "Ferrari", year: 2023, price: "$511,250", hp: "986 HP", acceleration: "2.5s", engine: "V8 Hybrid", img: "/images/featured-car.png", category: "Hypercar", isNew: true },
-  { id: 102, name: "Aston Martin DBS", maker: "Aston Martin", year: 2022, price: "$330,000", hp: "715 HP", acceleration: "3.4s", engine: "V12", img: "/images/car-2.png", category: "Supercar" },
-  { id: 103, name: "Porsche 911 Turbo S", maker: "Porsche", year: 2023, price: "$230,400", hp: "640 HP", acceleration: "2.6s", engine: "Flat-6", img: "/images/car-3.png", category: "Supercar", isNew: true },
-  { id: 104, name: "Mercedes-AMG G 63", maker: "Mercedes-Benz", year: 2024, price: "$179,000", hp: "577 HP", acceleration: "4.5s", engine: "V8 Biturbo", img: "/images/car-4.jpg", category: "Luxury SUV" },
-  ...coverflowCars.map(c => ({ ...c, category: c.price.includes("3,600") ? "Hypercar" : "Supercar", id: c.id + 200 }))
-];
-
-const filters = ["All Models", "Supercar", "Hypercar", "Luxury SUV", "Roadster"];
-
 export default function Collection() {
-  const [activeFilter, setActiveFilter] = useState("All Models");
-
-  const filteredCars = gridCars.filter(car => 
-    activeFilter === "All Models" ? true : car.category === activeFilter
-  );
 
   return (
     <section id="collection" className="relative pt-32 pb-20 bg-[#080808] overflow-hidden">
@@ -167,92 +151,6 @@ export default function Collection() {
         <div className="cf-pagination flex justify-center mt-7 swiper-pagination !static" />
       </div>
 
-      {/* Filterable Grid Section */}
-      <div className="relative z-10 container mx-auto px-6 md:px-20 mt-16 max-w-[1280px]">
-        <div className="text-center mb-12">
-          <h3 className="font-display text-[32px] font-bold mb-8">Full Inventory</h3>
-          
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {filters.map(filter => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-5 py-2.5 rounded-full font-display text-[11px] font-bold tracking-[0.1em] uppercase transition-all ${
-                  activeFilter === filter 
-                  ? 'bg-[#C9A84C] text-black shadow-[0_4px_16px_rgba(201,168,76,0.3)]' 
-                  : 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:border-[#C9A84C]/50'
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-          <AnimatePresence>
-            {filteredCars.map(car => (
-              <motion.div
-                key={car.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white/[0.04] border border-white/[0.09] rounded-[18px] overflow-hidden hover:border-[#C9A84C]/30 hover:-translate-y-2 hover:shadow-[0_28px_64px_rgba(0,0,0,0.65),0_0_44px_rgba(201,168,76,0.07)] transition-all duration-400 group cursor-pointer relative"
-              >
-                <div className="relative h-[230px] overflow-hidden">
-                  <img src={car.img} alt={car.name} className="w-full h-full object-cover transition-transform duration-[650ms] group-hover:scale-105" />
-                  <div className="absolute bottom-0 left-0 right-0 h-[90px] bg-gradient-to-t from-black/85 to-transparent" />
-                  {car.isNew && (
-                    <div className="absolute top-4 left-4 px-4 py-[5px] rounded-full border border-[#C9A84C]/50 bg-[#C9A84C]/10 font-display text-[10px] font-bold tracking-[0.22em] uppercase text-[#E8C76A]">
-                      New Arrival
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-[26px] pb-8">
-                  <div className="font-display text-[10px] tracking-[0.26em] uppercase text-[#6B7280] mb-2">
-                    {car.maker} • {car.year}
-                  </div>
-                  <div className="font-display text-[24px] font-bold tracking-[-0.01em] mb-4">
-                    {car.name}
-                  </div>
-                  
-                  <div className="flex gap-2 flex-wrap mb-[22px]">
-                    <span className="px-3.5 py-[5px] rounded-full border border-white/[0.08] bg-white/[0.03] text-[12px] text-[#9CA3AF]">
-                      {car.hp}
-                    </span>
-                    <span className="px-3.5 py-[5px] rounded-full border border-white/[0.08] bg-white/[0.03] text-[12px] text-[#9CA3AF]">
-                      0-100 {car.acceleration}
-                    </span>
-                    <span className="px-3.5 py-[5px] rounded-full border border-white/[0.08] bg-white/[0.03] text-[12px] text-[#9CA3AF]">
-                      {car.engine}
-                    </span>
-                  </div>
-
-                  <div className="pt-5 border-t border-white/[0.06] flex items-center justify-between">
-                    <div>
-                      <div className="text-[10px] text-[#6B7280] tracking-[0.09em] uppercase mb-1">Price</div>
-                      <div className="font-display text-[22px] font-bold text-[#E8C76A]">{car.price}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-[#C9A84C]/90 to-[#C9A84C]/55 text-black font-display text-[10px] font-bold tracking-[0.2em] uppercase text-center opacity-0 translate-y-full transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                  View Specifications
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-        
-        {filteredCars.length === 0 && (
-          <div className="text-center py-20 text-white/40">
-            No vehicles found for this category.
-          </div>
-        )}
-      </div>
     </section>
   );
 }
