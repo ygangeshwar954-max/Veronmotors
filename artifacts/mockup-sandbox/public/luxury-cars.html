@@ -422,11 +422,35 @@
       border-radius: 18px;
       overflow: hidden;
       transition: all 0.45s ease;
+      cursor: pointer;
     }
     .car-card:hover {
       border-color: rgba(201,168,76,0.32);
       transform: translateY(-8px);
       box-shadow: 0 28px 64px rgba(0,0,0,0.65), 0 0 44px rgba(201,168,76,0.07);
+    }
+
+    /* View-details hover hint */
+    .card-view-hint {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 13px 16px;
+      background: linear-gradient(to top, rgba(201,168,76,0.92), rgba(201,168,76,0.55));
+      color: #000;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: opacity 0.32s ease, transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94);
+      pointer-events: none;
+    }
+    .car-card:hover .card-view-hint {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .car-img-wrap {
@@ -1209,11 +1233,12 @@
       <div class="cars-grid">
 
         <!-- Card 1 -->
-        <article class="car-card reveal rd1" data-category="supercar">
+        <article class="car-card reveal rd1" data-category="supercar" onclick="goToDetail(event,1)">
           <div class="car-img-wrap">
             <img src="images/hero-car.png" alt="Obsidian GT-R" loading="lazy" />
             <div class="car-badge">NEW</div>
             <div class="car-img-fade"></div>
+            <div class="card-view-hint">View Details →</div>
           </div>
           <div class="car-body">
             <p class="car-tag">Born from darkness.</p>
@@ -1228,17 +1253,18 @@
                 <p class="car-price-label">Starting from</p>
                 <p class="car-price">$289,000</p>
               </div>
-              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+              <a href="#signup" class="btn-outline btn-sm" onclick="event.stopPropagation()">Enquire</a>
             </div>
           </div>
         </article>
 
         <!-- Card 2 -->
-        <article class="car-card reveal rd2" data-category="supercar">
+        <article class="car-card reveal rd2" data-category="supercar" onclick="goToDetail(event,2)">
           <div class="car-img-wrap">
             <img src="images/car-2.png" alt="Arctic Spectre" loading="lazy" />
             <div class="car-badge">LIMITED</div>
             <div class="car-img-fade"></div>
+            <div class="card-view-hint">View Details →</div>
           </div>
           <div class="car-body">
             <p class="car-tag">Silence and speed.</p>
@@ -1253,17 +1279,18 @@
                 <p class="car-price-label">Starting from</p>
                 <p class="car-price">$342,000</p>
               </div>
-              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+              <a href="#signup" class="btn-outline btn-sm" onclick="event.stopPropagation()">Enquire</a>
             </div>
           </div>
         </article>
 
         <!-- Card 3 -->
-        <article class="car-card reveal rd3" data-category="hypercar">
+        <article class="car-card reveal rd3" data-category="hypercar" onclick="goToDetail(event,16)">
           <div class="car-img-wrap">
             <img src="images/car-3.png" alt="Midnight Sovereign" loading="lazy" />
             <div class="car-badge">BESPOKE</div>
             <div class="car-img-fade"></div>
+            <div class="card-view-hint">View Details →</div>
           </div>
           <div class="car-body">
             <p class="car-tag">Command every road.</p>
@@ -1278,17 +1305,18 @@
                 <p class="car-price-label">Starting from</p>
                 <p class="car-price">$415,000</p>
               </div>
-              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+              <a href="#signup" class="btn-outline btn-sm" onclick="event.stopPropagation()">Enquire</a>
             </div>
           </div>
         </article>
 
         <!-- Card 4 -->
-        <article class="car-card reveal rd4" data-category="hypercar">
+        <article class="car-card reveal rd4" data-category="hypercar" onclick="goToDetail(event,15)">
           <div class="car-img-wrap">
             <img src="images/car-4.jpg" alt="Crimson Phantom" loading="lazy" />
             <div class="car-badge">HYPERCAR</div>
             <div class="car-img-fade"></div>
+            <div class="card-view-hint">View Details →</div>
           </div>
           <div class="car-body">
             <p class="car-tag">Fury in crimson.</p>
@@ -1303,17 +1331,18 @@
                 <p class="car-price-label">Starting from</p>
                 <p class="car-price">$528,000</p>
               </div>
-              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+              <a href="#signup" class="btn-outline btn-sm" onclick="event.stopPropagation()">Enquire</a>
             </div>
           </div>
         </article>
 
         <!-- Card 5 -->
-        <article class="car-card reveal rd5" data-category="suv">
+        <article class="car-card reveal rd5" data-category="suv" onclick="goToDetail(event,33)">
           <div class="car-img-wrap">
             <img src="images/car-5.jpg" alt="Onyx Predator" loading="lazy" />
             <div class="car-badge">SUV</div>
             <div class="car-img-fade"></div>
+            <div class="card-view-hint">View Details →</div>
           </div>
           <div class="car-body">
             <p class="car-tag">Dominance, refined.</p>
@@ -1328,17 +1357,18 @@
                 <p class="car-price-label">Starting from</p>
                 <p class="car-price">$378,000</p>
               </div>
-              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+              <a href="#signup" class="btn-outline btn-sm" onclick="event.stopPropagation()">Enquire</a>
             </div>
           </div>
         </article>
 
         <!-- Card 6 -->
-        <article class="car-card reveal rd6" data-category="roadster">
+        <article class="car-card reveal rd6" data-category="roadster" onclick="goToDetail(event,23)">
           <div class="car-img-wrap">
             <img src="images/car-6.jpg" alt="Titanium Revenant" loading="lazy" />
             <div class="car-badge">ROADSTER</div>
             <div class="car-img-fade"></div>
+            <div class="card-view-hint">View Details →</div>
           </div>
           <div class="car-body">
             <p class="car-tag">Open air, pure soul.</p>
@@ -1353,7 +1383,7 @@
                 <p class="car-price-label">Starting from</p>
                 <p class="car-price">$312,000</p>
               </div>
-              <a href="#signup" class="btn-outline btn-sm">Enquire</a>
+              <a href="#signup" class="btn-outline btn-sm" onclick="event.stopPropagation()">Enquire</a>
             </div>
           </div>
         </article>
@@ -1935,7 +1965,11 @@
       }
     }, { threshold: 0.5 });
     if (statsSection) statObserver.observe(statsSection);
-  </script>
+    function goToDetail(e, id) {
+    if (e.target.tagName === "A" || e.target.closest("a")) return;
+    window.location.href = "car-detail.html?id=" + id;
+  }
+</script>
 
 </body>
 </html>
