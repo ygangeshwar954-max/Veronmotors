@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Veyron Motors — Collection</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <style>
+    /* ─── RESET ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    ul { list-style: none; }
+
+    /* ─── TOKENS ─────────────────────────────────────────────────── */
+    :root {
+      --gold:         #C9A84C;
+      --gold-light:   #E8C76A;
+      --gold-dark:    #9A7A2E;
+      --black:        #000000;
+      --black-1:      #080808;
+      --black-2:      #111111;
+      --black-3:      #1A1A1A;
+      --black-4:      #242424;
+      --white:        #FFFFFF;
+      --gray-1:       #F5F5F5;
+      --gray-2:       #9CA3AF;
+      --gray-3:       #6B7280;
+      --glass-bg:     rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.09);
+      --font-display: 'Montserrat', sans-serif;
+      --font-body:    'Space Grotesk', sans-serif;
+      --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ─── BASE ────────────────────────────────────────────────────── */
+    body {
+      font-family: var(--font-body);
+      background: var(--black-1);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--black-1); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+
+    /* ─── KEYFRAMES ───────────────────────────────────────────────── */
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position:  200% center; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0   rgba(201,168,76,0.5); }
+      50%       { box-shadow: 0 0 0 8px rgba(201,168,76,0); }
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── UTILITY ─────────────────────────────────────────────────── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
+
+    .gold-shimmer {
+      background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold-light) 40%, var(--gold) 60%, var(--gold-dark) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.08;
+    }
+
+    /* ─── NAVBAR ──────────────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 300;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      background: rgba(8, 8, 8, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.35s ease;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .nav-logo-ring {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 16px rgba(201,168,76,0.3);
+    }
+    .nav-logo-ring svg { width: 16px; height: 16px; fill: var(--gold); }
+    .nav-logo-text {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+    }
+    .nav-links a {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      position: relative;
+      transition: color 0.25s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.3s var(--ease);
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold-light); }
+    .nav-links a.active::after { width: 100%; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 26px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      color: #000;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.28);
+      transition: all 0.3s ease;
+    }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 32px rgba(201,168,76,0.48);
+    }
+
+    /* ─── HERO ────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/hero-car.png');
+      background-size: cover;
+      background-position: center right;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(125deg,
+        rgba(0,0,0,0.96) 0%,
+        rgba(0,0,0,0.75) 40%,
+        rgba(0,0,0,0.22) 68%,
+        rgba(0,0,0,0.06) 100%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, transparent 55%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 160px 64px 100px;
+      max-width: 700px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(201,168,76,0.35);
+      background: rgba(201,168,76,0.07);
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse-dot 2s ease infinite;
+    }
+    .hero-badge span {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(54px, 7.5vw, 96px);
+      font-weight: 900;
+      line-height: 0.97;
+      letter-spacing: -0.04em;
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.48);
+      max-width: 440px;
+      margin-bottom: 52px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 38px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      color: #000;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      box-shadow: 0 6px 28px rgba(201,168,76,0.32);
+      transition: all 0.3s var(--ease);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 44px rgba(201,168,76,0.52);
+    }
+    .btn-primary svg { width: 14px; height: 14px; }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.7);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: all 0.3s var(--ease);
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 48px; left: 64px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      animation: fadeUp 0.7s 0.5s ease both;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .hero-scroll-label {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+
+    /* Stats strip */
+    .hero-stats {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 3;
+      display: flex;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .hero-stat {
+      flex: 1;
+      padding: 20px 0;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff, var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-lbl {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-top: 3px;
+    }
+
+    /* ─── TICKER ──────────────────────────────────────────────────── */
+    .ticker-wrap {
+      overflow: hidden;
+      background: var(--black-2);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 16px 0;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-flex;
+      gap: 0;
+      animation: ticker 26s linear infinite;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 36px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+    .ticker-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ─── COLLECTION / COVERFLOW SECTION ─────────────────────────── */
+    .collection {
+      position: relative;
+      padding: 120px 0 140px;
+      background: var(--black-1);
+      overflow: hidden;
+    }
+
+    /* Background radial glow */
+    .collection-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.055) 0%, transparent 68%);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .collection-glow-l {
+      position: absolute;
+      top: 30%; left: -10%;
+      width: 500px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.03) 0%, transparent 68%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .collection-glow-r {
+      position: absolute;
+      top: 30%; right: -10%;
+      width: 500px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.03) 0%, transparent 68%);
+      filter: blur: 60px;
+      pointer-events: none;
+    }
+
+    .collection-header {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-bottom: 80px;
+      padding: 0 64px;
+    }
+    .collection-header .section-title {
+      margin-bottom: 16px;
+    }
+    .collection-header p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.38);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    .header-line {
+      width: 64px; height: 1px;
+      margin: 20px auto 0;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* Swiper container */
+    .coverflow-swiper {
+      width: 100%;
+      padding: 40px 0 60px !important;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ─── CARD ────────────────────────────────────────────────────── */
+    .cf-card {
+      width: 340px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--black-3);
+      border: 1px solid rgba(255,255,255,0.07);
+      box-shadow:
+        0 4px 24px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      transition: border-color 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      cursor: pointer;
+      /* extra bottom padding so the footer row isn't cropped by border-radius */
+      padding-bottom: 0;
+    }
+
+    /* Active/center card gets gold border glow */
+    .swiper-slide-active .cf-card {
+      border-color: rgba(201,168,76,0.3);
+      box-shadow:
+        0 24px 72px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(201,168,76,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    /* Image area */
+    .cf-img-wrap {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+    }
+    .cf-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.65s var(--ease);
+    }
+    .swiper-slide-active .cf-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    /* Gradient fade over image bottom */
+    .cf-img-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 100px;
+      background: linear-gradient(to top, var(--black-3), transparent);
+    }
+
+    /* Pill badges */
+    .cf-badges {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .cf-badge {
+      padding: 4px 13px;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.8);
+    }
+    .cf-badge.gold {
+      border-color: rgba(201,168,76,0.5);
+      background: rgba(201,168,76,0.1);
+      color: var(--gold-light);
+    }
+
+    /* Availability dot */
+    .cf-avail {
+      position: absolute;
+      top: 14px; right: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .cf-avail-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #4ADE80;
+      box-shadow: 0 0 6px #4ADE80;
+    }
+    .cf-avail span {
+      font-family: var(--font-display);
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* Card body */
+    .cf-body {
+      padding: 20px 22px 0;
+    }
+    .cf-maker {
+      font-family: var(--font-display);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-bottom: 6px;
+    }
+    .cf-name {
+      font-family: var(--font-display);
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    /* Spec pills */
+    .cf-specs {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .cf-spec {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      font-family: var(--font-display);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.5);
+    }
+    .cf-spec-icon {
+      width: 10px; height: 10px;
+      opacity: 0.55;
+      flex-shrink: 0;
+    }
+
+    /* Divider */
+    .cf-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 0 -22px;
+    }
+
+    /* Card footer */
+    .cf-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px 20px;
+    }
+    .cf-price-label {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-3);
+      margin-bottom: 3px;
+    }
+    .cf-price {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--gold-light);
+    }
+    .cf-price-unit {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gray-3);
+      margin-left: 2px;
+    }
+
+    .cf-action {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(201,168,76,0.3);
+      transition: all 0.3s var(--ease);
+      flex-shrink: 0;
+    }
+    .cf-action:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 28px rgba(201,168,76,0.52);
+    }
+    .cf-action svg {
+      width: 14px; height: 14px;
+      fill: none;
+      stroke: #000;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ─── SWIPER CUSTOM STYLES ────────────────────────────────────── */
+    /* Center-slide slightly taller shadow */
+    .swiper-slide {
+      width: 340px !important;
+      transition: all 0.55s var(--ease) !important;
+    }
+
+    /* Navigation arrows */
+    .cf-nav {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 48px;
+      position: relative;
+      z-index: 2;
+    }
+    .cf-nav-btn {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      backdrop-filter: blur(8px);
+    }
+    .cf-nav-btn:hover {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+    .cf-nav-btn svg {
+      width: 16px; height: 16px;
+      fill: none;
+      stroke: rgba(255,255,255,0.5);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.25s;
+    }
+    .cf-nav-btn:hover svg { stroke: var(--gold-light); }
+
+    /* Pagination dots */
+    .cf-pagination {
+      display: flex;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 28px;
+    }
+    .swiper-pagination-bullet {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 50% !important;
+      background: rgba(255,255,255,0.2) !important;
+      opacity: 1 !important;
+      transition: all 0.35s ease !important;
+    }
+    .swiper-pagination-bullet-active {
+      width: 24px !important;
+      border-radius: 3px !important;
+      background: var(--gold) !important;
+    }
+
+    /* Collection view-all CTA */
+    .collection-cta {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-top: 52px;
+    }
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.65);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.3s var(--ease);
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      background: rgba(201,168,76,0.05);
+      transform: translateY(-2px);
+    }
+
+    /* ─── FEATURES ROW ────────────────────────────────────────────── */
+    .features {
+      background: var(--black-2);
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .feature-item {
+      padding: 36px 40px;
+      border-right: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.3s ease;
+    }
+    .feature-item:last-child { border-right: none; }
+    .feature-item:hover { background: rgba(255,255,255,0.025); }
+    .feature-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      border: 1px solid rgba(201,168,76,0.25);
+      background: rgba(201,168,76,0.06);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .feature-icon svg {
+      width: 20px; height: 20px;
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .feature-desc {
+      font-size: 13px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.38);
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────────────── */
+    .footer {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 56px 0 36px;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+    .footer-links a {
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      transition: color 0.25s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .navbar { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero-content { padding: 130px 24px 100px; }
+      .hero-scroll { left: 24px; }
+      .container { padding: 0 24px; }
+      .collection-header { padding: 0 24px; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 560px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-stats { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══════════════════════════════════════════════════ -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="nav-logo-ring">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">Veyron</span>
+    </div>
+
+    <div class="nav-links">
+      <a href="#" class="active">Home</a>
+      <a href="#collection">Collection</a>
+      <a href="#">Brands</a>
+      <a href="#">Experience</a>
+      <a href="#">Contact</a>
+    </div>
+
+    <a href="#" class="nav-cta">
+      Reserve Now
+    </a>
+  </nav>
+
+  <!-- ═══ HERO ══════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        <span>The Art of Performance</span>
+      </div>
+
+      <h1 class="hero-headline">
+        Drive the<br />
+        <span class="gold-shimmer">Extraordinary</span>
+      </h1>
+
+      <p class="hero-sub">
+        Handpicked supercars, concierge delivery, and zero compromise.
+        Experience automotive theatre at its finest.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#collection" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Browse Fleet
+        </a>
+        <a href="#" class="btn-ghost">
+          Watch Film
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span class="hero-scroll-label">Scroll</span>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="stat-val">240+</div>
+        <div class="stat-lbl">Supercars</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-val">48h</div>
+        <div class="stat-lbl">Avg Delivery</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-val">98%</div>
+        <div class="stat-lbl">Satisfaction</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-val">32</div>
+        <div class="stat-lbl">Countries</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TICKER ════════════════════════════════════════════════════ -->
+  <div class="ticker-wrap">
+    <div class="ticker-inner" id="ticker">
+      <span class="ticker-item"><span class="ticker-dot"></span>Ferrari</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Lamborghini</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>McLaren</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Porsche</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Bugatti</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Aston Martin</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Rolls-Royce</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Bentley</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Koenigsegg</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Pagani</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item"><span class="ticker-dot"></span>Ferrari</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Lamborghini</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>McLaren</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Porsche</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Bugatti</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Aston Martin</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Rolls-Royce</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Bentley</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Koenigsegg</span>
+      <span class="ticker-item"><span class="ticker-dot"></span>Pagani</span>
+    </div>
+  </div>
+
+  <!-- ═══ COLLECTION / COVERFLOW ═══════════════════════════════════ -->
+  <section class="collection" id="collection">
+    <div class="collection-glow"></div>
+    <div class="collection-glow-l"></div>
+    <div class="collection-glow-r"></div>
+
+    <div class="collection-header">
+      <span class="section-eyebrow">Our Fleet</span>
+      <h2 class="section-title">The Collection</h2>
+      <p>Every machine handpicked for its soul. Slide through our fleet and reserve your moment.</p>
+      <div class="header-line"></div>
+    </div>
+
+    <!-- Swiper -->
+    <div class="swiper coverflow-swiper" id="coverflowSwiper">
+      <div class="swiper-wrapper">
+
+        <!-- ── Card 1 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-9.jpg" alt="Ferrari 296 GTB" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">Rosso</span>
+                <span class="cf-badge">Automatic</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot"></div>
+                <span>Available</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">Ferrari · 2024</div>
+              <div class="cf-name">296 GTB</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  830 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2.9s 0–100
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                  V6 Hybrid
+                </span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$3,200<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 2 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-5.jpg" alt="Lamborghini Huracán" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">Giallo</span>
+                <span class="cf-badge">7-Speed</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot"></div>
+                <span>Available</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">Lamborghini · 2023</div>
+              <div class="cf-name">Huracán EVO</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  640 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  3.1s 0–100
+                </span>
+                <span class="cf-spec">V10 NA</span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$2,800<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 3 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-6.jpg" alt="Porsche 911 GT3" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">GT Silver</span>
+                <span class="cf-badge">PDK</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot"></div>
+                <span>Available</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">Porsche · 2024</div>
+              <div class="cf-name">911 GT3 RS</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  525 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  3.2s 0–100
+                </span>
+                <span class="cf-spec">Flat-6 NA</span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$1,950<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 4 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-7.jpg" alt="McLaren 720S" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">Papaya</span>
+                <span class="cf-badge">SSG</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot"></div>
+                <span>Available</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">McLaren · 2023</div>
+              <div class="cf-name">720S Spider</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  720 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2.8s 0–100
+                </span>
+                <span class="cf-spec">Twin-Turbo V8</span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$2,600<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 5 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-8.jpg" alt="Aston Martin DB12" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">Midnight</span>
+                <span class="cf-badge">8-Speed</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot"></div>
+                <span>Available</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">Aston Martin · 2024</div>
+              <div class="cf-name">DB12 Volante</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  671 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  3.6s 0–100
+                </span>
+                <span class="cf-spec">Twin-Turbo V8</span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$2,400<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 6 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-10.jpg" alt="Bentley Continental GT" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">Onyx</span>
+                <span class="cf-badge">Auto</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot"></div>
+                <span>Available</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">Bentley · 2024</div>
+              <div class="cf-name">Continental GT Speed</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  659 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  3.6s 0–100
+                </span>
+                <span class="cf-spec">W12 6.0L</span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$2,100<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 7 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-11.jpg" alt="Rolls-Royce Wraith" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">Jubilee</span>
+                <span class="cf-badge">8-Speed</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot"></div>
+                <span>Available</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">Rolls-Royce · 2023</div>
+              <div class="cf-name">Wraith Black Badge</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  624 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  4.4s 0–100
+                </span>
+                <span class="cf-spec">Twin-Turbo V12</span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$3,800<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Card 8 ── -->
+        <div class="swiper-slide">
+          <div class="cf-card">
+            <div class="cf-img-wrap">
+              <img src="images/car-12.jpg" alt="Bugatti Chiron" loading="lazy" />
+              <div class="cf-img-fade"></div>
+              <div class="cf-badges">
+                <span class="cf-badge gold">French Blue</span>
+                <span class="cf-badge">DSG</span>
+              </div>
+              <div class="cf-avail">
+                <div class="cf-avail-dot" style="background:#FACC15;box-shadow:0 0 6px #FACC15"></div>
+                <span>On Request</span>
+              </div>
+            </div>
+            <div class="cf-body">
+              <div class="cf-maker">Bugatti · 2023</div>
+              <div class="cf-name">Chiron Pur Sport</div>
+              <div class="cf-specs">
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  1,500 hp
+                </span>
+                <span class="cf-spec">
+                  <svg class="cf-spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  2.3s 0–100
+                </span>
+                <span class="cf-spec">Quad-Turbo W16</span>
+              </div>
+            </div>
+            <div class="cf-divider"></div>
+            <div class="cf-footer">
+              <div>
+                <div class="cf-price-label">Per Day</div>
+                <div class="cf-price">$12,000<span class="cf-price-unit">/day</span></div>
+              </div>
+              <button class="cf-action" title="Reserve">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end .swiper-wrapper -->
+
+      <!-- Pagination -->
+      <div class="swiper-pagination" style="bottom: 8px;"></div>
+    </div><!-- end .swiper -->
+
+    <!-- Custom nav buttons -->
+    <div class="cf-nav">
+      <button class="cf-nav-btn" id="cfPrev" title="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="cf-nav-btn" id="cfNext" title="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- View all CTA -->
+    <div class="collection-cta">
+      <button class="btn-outline">
+        View Full Collection
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURES ══════════════════════════════════════════════════ -->
+  <section class="features">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+            </svg>
+          </div>
+          <div class="feature-title">Concierge Delivery</div>
+          <div class="feature-desc">Your chosen supercar arrives at your door, hotel, or airport. Worldwide, within 48 hours.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="feature-title">Fully Insured</div>
+          <div class="feature-desc">Comprehensive coverage on every rental. Drive with complete peace of mind, zero surprises.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="feature-title">24/7 Support</div>
+          <div class="feature-desc">Our dedicated team is always on call — roadside, logistics, or anything you need.</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="feature-title">Vetted Fleet Only</div>
+          <div class="feature-desc">Every car is inspected, detailed, and performance-verified before it touches a key.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-copy">© 2024 Veyron Motors. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ SCRIPTS ═══════════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    /* ── Coverflow Swiper ── */
+    const swiper = new Swiper('#coverflowSwiper', {
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      loop: true,
+      slidesPerView: 'auto',
+
+      coverflowEffect: {
+        rotate: 28,          /* Y-axis rotation on side cards */
+        stretch: 0,          /* no extra gap between slides */
+        depth: 200,          /* Z-depth of side cards */
+        modifier: 1.2,       /* amplify the effect */
+        slideShadows: false, /* we handle shadows via CSS */
+      },
+
+      speed: 680,
+      touchRatio: 1.2,
+
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+
+      /* keyboard nav */
+      keyboard: { enabled: true },
+
+      /* accessibility */
+      a11y: { enabled: true },
+
+      /* auto-play */
+      autoplay: {
+        delay: 3800,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      },
+
+      breakpoints: {
+        0:   { slidesPerView: 1.15 },
+        560: { slidesPerView: 1.6  },
+        800: { slidesPerView: 2.2  },
+        1100:{ slidesPerView: 'auto' },
+      },
+    });
+
+    /* Custom nav buttons */
+    document.getElementById('cfPrev').addEventListener('click', () => swiper.slidePrev());
+    document.getElementById('cfNext').addEventListener('click', () => swiper.slideNext());
+
+    /* Click side cards → bring to center */
+    document.querySelectorAll('.swiper-slide').forEach((slide) => {
+      slide.addEventListener('click', () => {
+        const idx = parseInt(slide.getAttribute('data-swiper-slide-index') ?? slide.dataset.swiperSlideIndex ?? '0', 10);
+        if (!slide.classList.contains('swiper-slide-active')) {
+          swiper.slideToLoop(idx, 550);
+        }
+      });
+    });
+
+    /* Navbar shrink on scroll */
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.style.height = '56px';
+        navbar.style.background = 'rgba(0,0,0,0.96)';
+      } else {
+        navbar.style.height = '70px';
+        navbar.style.background = 'rgba(8,8,8,0.88)';
+      }
+    }, { passive: true });
+
+    /* Smooth scroll for anchor links */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
