@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Veyron Motors"
+version = "1.0.0"
+id = "artifacts/veyron-motors"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20861
+
+[services.development]
+run = "pnpm --filter @workspace/veyron-motors run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/veyron-motors", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/veyron-motors/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20861"
+BASE_PATH = "/"
