@@ -12,3 +12,9 @@ id = "pUPxpfTaqjFDpcJBwuHVi"
 uri = "file://artifacts/mockup-sandbox/public/collection.html"
 type = "unspecified"
 title = "Veyron Motors — Full Collection Page (61 Cars)"
+
+[[outputs]]
+id = "LUYl-hgYJ4t79gVaWNMvG"
+uri = "file://artifacts/mockup-sandbox/public/car-detail.html"
+type = "unspecified"
+title = "Veyron Motors — Car Detail Page"

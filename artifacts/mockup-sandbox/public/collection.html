@@ -368,6 +368,29 @@
     .car-price-label{font-size:9px;color:var(--gray-3);letter-spacing:.09em;text-transform:uppercase;margin-bottom:3px}
     .car-price{font-family:var(--font-d);font-size:20px;font-weight:700;color:var(--gold-light)}
 
+    /* View details hint */
+    .card-view-hint {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 12px 16px;
+      background: linear-gradient(to top, rgba(201,168,76,0.92), rgba(201,168,76,0.6));
+      color: #000;
+      font-family: var(--font-d);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      pointer-events: none;
+    }
+    .car-card:hover .card-view-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* List view card overrides */
     .cars-grid.view-list .car-card{
       display:grid;grid-template-columns:280px 1fr;
@@ -765,12 +788,13 @@ function renderCard(c, idx) {
   var delay = idx % 3;
   var delayCls = ['rd1','rd2','rd3'][delay];
   return (
-    '<article class="car-card reveal ' + delayCls + '" data-id="' + c.id + '">' +
+    '<article class="car-card reveal ' + delayCls + '" data-id="' + c.id + '" onclick="handleCardClick(event,' + c.id + ')">' +
       '<div class="car-img-wrap">' +
         '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy" />' +
         badge +
         '<div class="car-img-fade"></div>' +
         '<div class="car-num">#' + String(c.id).padStart(2,'0') + '</div>' +
+        '<div class="card-view-hint">View Details →</div>' +
       '</div>' +
       '<div class="car-body">' +
         '<p class="car-tag">' + c.tag + '</p>' +
@@ -781,11 +805,16 @@ function renderCard(c, idx) {
             '<p class="car-price-label">Starting from</p>' +
             '<p class="car-price">' + fmtPrice(c.price) + '</p>' +
           '</div>' +
-          '<a href="#enquire" class="btn-outline" style="padding:8px 20px;font-size:10px">Enquire</a>' +
+          '<a href="#enquire" class="btn-outline" style="padding:8px 20px;font-size:10px" onclick="event.stopPropagation()">Enquire</a>' +
         '</div>' +
       '</div>' +
     '</article>'
   );
+}
+
+function handleCardClick(e, id) {
+  if (e.target.tagName === 'A' || e.target.closest('a')) return;
+  window.location.href = 'car-detail.html?id=' + id;
 }
 
 // ─── FILTER + SORT ────────────────────────────────────────────────
