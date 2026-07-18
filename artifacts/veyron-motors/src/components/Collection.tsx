@@ -1,23 +1,17 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Settings } from 'lucide-react';
+import { ArrowRight, Calendar, Settings, ChevronRight } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Autoplay, Pagination, Keyboard } from 'swiper/modules';
+import { useLocation } from 'wouter';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
+import { getCoverflowCars } from '@/data/cars';
 
-const coverflowCars = [
-  { id: 1, name: "Ferrari 296 GTB", maker: "Ferrari", year: 2023, price: "$338,255", hp: "819 HP", acceleration: "2.9s", engine: "V6 Hybrid", img: "/images/car-9.jpg", isNew: true },
-  { id: 2, name: "Lamborghini Huracán EVO", maker: "Lamborghini", year: 2022, price: "$261,274", hp: "631 HP", acceleration: "2.9s", engine: "V10", img: "/images/car-5.jpg" },
-  { id: 3, name: "Porsche 911 GT3 RS", maker: "Porsche", year: 2024, price: "$223,800", hp: "518 HP", acceleration: "3.0s", engine: "Flat-6", img: "/images/car-6.jpg", isNew: true },
-  { id: 4, name: "McLaren 720S Spider", maker: "McLaren", year: 2023, price: "$315,000", hp: "710 HP", acceleration: "2.8s", engine: "V8 Twin-Turbo", img: "/images/car-7.jpg" },
-  { id: 5, name: "Aston Martin DB12 Volante", maker: "Aston Martin", year: 2024, price: "$265,000", hp: "671 HP", acceleration: "3.6s", engine: "V8 Twin-Turbo", img: "/images/car-8.jpg" },
-  { id: 6, name: "Bentley Continental GT Speed", maker: "Bentley", year: 2023, price: "$288,500", hp: "650 HP", acceleration: "3.5s", engine: "W12", img: "/images/car-10.jpg" },
-  { id: 7, name: "Rolls-Royce Wraith Black Badge", maker: "Rolls-Royce", year: 2022, price: "$380,000", hp: "624 HP", acceleration: "4.3s", engine: "V12", img: "/images/car-11.jpg" },
-  { id: 8, name: "Bugatti Chiron Pur Sport", maker: "Bugatti", year: 2021, price: "$3,600,000", hp: "1500 HP", acceleration: "2.3s", engine: "W16 Quad-Turbo", img: "/images/car-12.jpg" },
-];
+const coverflowCars = getCoverflowCars();
 
 export default function Collection() {
+  const [, navigate] = useLocation();
 
   return (
     <section id="collection" className="relative pt-32 pb-20 bg-[#080808] overflow-hidden">
@@ -25,9 +19,9 @@ export default function Collection() {
       <div className="absolute top-[10%] -left-[10%] w-[500px] h-[400px] rounded-full bg-[radial-gradient(ellipse,rgba(201,168,76,0.03)_0%,transparent_68%)] blur-[60px] pointer-events-none" />
       <div className="absolute top-[10%] -right-[10%] w-[500px] h-[400px] rounded-full bg-[radial-gradient(ellipse,rgba(201,168,76,0.03)_0%,transparent_68%)] blur-[60px] pointer-events-none" />
 
-      {/* Coverflow Header */}
+      {/* Header */}
       <div className="relative z-10 text-center mb-16 px-6 md:px-16">
-        <motion.span 
+        <motion.span
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -35,7 +29,7 @@ export default function Collection() {
         >
           Curated Perfection
         </motion.span>
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -44,7 +38,7 @@ export default function Collection() {
         >
           Featured Masterpieces
         </motion.h2>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -62,7 +56,7 @@ export default function Collection() {
           effect={'coverflow'}
           grabCursor={true}
           centeredSlides={true}
-          loop={true}
+          loop={false}
           slidesPerView={'auto'}
           coverflowEffect={{
             rotate: 28,
@@ -85,11 +79,13 @@ export default function Collection() {
           {coverflowCars.map((car) => (
             <SwiperSlide key={car.id} className="!w-[340px] !transition-all !duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group">
               {({ isActive }) => (
-                <div className={`w-[340px] rounded-[22px] overflow-hidden bg-[#1A1A1A] border ${isActive ? 'border-[#C9A84C]/30 shadow-[0_24px_72px_rgba(0,0,0,0.8),0_0_0_1px_rgba(201,168,76,0.18),inset_0_1px_0_rgba(255,255,255,0.1)]' : 'border-white/5 shadow-[0_4px_24px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]'} transition-all duration-400 ease-out pb-0 cursor-pointer relative`}>
+                <div
+                  onClick={() => navigate(`/cars/${car.slug}`)}
+                  className={`w-[340px] rounded-[22px] overflow-hidden bg-[#1A1A1A] border cursor-pointer ${isActive ? 'border-[#C9A84C]/30 shadow-[0_24px_72px_rgba(0,0,0,0.8),0_0_0_1px_rgba(201,168,76,0.18),inset_0_1px_0_rgba(255,255,255,0.1)]' : 'border-white/5 shadow-[0_4px_24px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]'} transition-all duration-400 ease-out pb-0 relative`}
+                >
                   <div className="relative h-[220px] overflow-hidden">
                     <img src={car.img} alt={car.name} className={`w-full h-full object-cover transition-transform duration-[650ms] ${isActive ? 'scale-105' : 'scale-100'}`} />
                     <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-t from-[#1A1A1A] to-transparent" />
-                    
                     <div className="absolute top-[14px] left-[14px] flex gap-[7px] flex-wrap">
                       {car.isNew && (
                         <div className="px-[13px] py-1 rounded-full font-display text-[9px] font-bold tracking-[0.18em] uppercase border border-[#C9A84C]/50 bg-[#C9A84C]/10 text-[#E8C76A]">
@@ -100,7 +96,6 @@ export default function Collection() {
                         Automatic
                       </div>
                     </div>
-
                     <div className="absolute top-[14px] right-[14px] flex items-center gap-1.5 px-[12px] py-[5px] rounded-full bg-black/55 backdrop-blur-sm border border-white/10">
                       <div className="w-[5px] h-[5px] rounded-full bg-[#4ADE80] shadow-[0_0_6px_#4ADE80]" />
                       <span className="font-display text-[8px] font-semibold tracking-[0.14em] uppercase text-white/55">Available</span>
@@ -114,7 +109,6 @@ export default function Collection() {
                     <div className="font-display text-[19px] font-extrabold tracking-[-0.015em] leading-[1.15] mb-4">
                       {car.name}
                     </div>
-
                     <div className="flex gap-[7px] flex-wrap mb-[18px]">
                       <div className="flex items-center gap-[5px] px-[12px] py-[5px] rounded-full border border-white/5 bg-white/[0.03] font-display text-[9.5px] font-semibold tracking-[0.08em] text-white/50">
                         <Settings className="w-[10px] h-[10px] opacity-55" /> {car.hp}
@@ -132,12 +126,8 @@ export default function Collection() {
 
                   <div className="flex items-center justify-between px-[22px] py-4 pb-5">
                     <div>
-                      <div className="font-display text-[9px] tracking-[0.14em] uppercase text-[#6B7280] mb-1">
-                        Starting from
-                      </div>
-                      <div className="font-display text-[22px] font-extrabold tracking-[-0.02em] text-[#E8C76A]">
-                        {car.price}
-                      </div>
+                      <div className="font-display text-[9px] tracking-[0.14em] uppercase text-[#6B7280] mb-1">Starting from</div>
+                      <div className="font-display text-[22px] font-extrabold tracking-[-0.02em] text-[#E8C76A]">{car.price}</div>
                     </div>
                     <button className="w-[42px] h-[42px] rounded-full bg-gradient-to-br from-[#9A7A2E] to-[#C9A84C] flex items-center justify-center shadow-[0_4px_18px_rgba(201,168,76,0.3)] hover:scale-110 hover:shadow-[0_8px_28px_rgba(201,168,76,0.52)] transition-all">
                       <ArrowRight className="w-3.5 h-3.5 text-black" strokeWidth={2.5} />
@@ -147,10 +137,57 @@ export default function Collection() {
               )}
             </SwiperSlide>
           ))}
+
+          {/* View More card */}
+          <SwiperSlide className="!w-[340px]">
+            {({ isActive }) => (
+              <div
+                onClick={() => navigate('/cars')}
+                className={`w-[340px] h-full min-h-[420px] rounded-[22px] overflow-hidden border cursor-pointer flex flex-col items-center justify-center gap-6 relative group
+                  ${isActive
+                    ? 'border-[#C9A84C]/40 shadow-[0_24px_72px_rgba(0,0,0,0.8),0_0_0_1px_rgba(201,168,76,0.2)]'
+                    : 'border-white/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.5)]'}
+                  bg-gradient-to-b from-[#1A1A1A] to-[#111] transition-all duration-400`}
+              >
+                {/* Decorative grid */}
+                <div
+                  className="absolute inset-0 opacity-[0.04]"
+                  style={{ backgroundImage: 'repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.5) 39px,rgba(255,255,255,0.5) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,0.5) 39px,rgba(255,255,255,0.5) 40px)' }}
+                />
+                {/* Gold radial glow */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_55%,rgba(201,168,76,0.07),transparent)] pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col items-center gap-5 px-8 text-center">
+                  {/* Icon ring */}
+                  <div className={`w-20 h-20 rounded-full border-2 flex items-center justify-center transition-all duration-400
+                    ${isActive ? 'border-[#C9A84C] shadow-[0_0_32px_rgba(201,168,76,0.3)]' : 'border-white/15 group-hover:border-[#C9A84C]/60'}
+                    bg-gradient-to-br from-white/[0.04] to-white/[0.02]`}
+                  >
+                    <ChevronRight className={`w-7 h-7 transition-colors duration-300 ${isActive ? 'text-[#E8C76A]' : 'text-white/40 group-hover:text-[#C9A84C]'}`} strokeWidth={1.5} />
+                  </div>
+
+                  <div>
+                    <div className="font-display text-[10px] font-semibold tracking-[0.28em] uppercase text-[#C9A84C] mb-2">
+                      Full Catalogue
+                    </div>
+                    <div className="font-display text-[22px] font-extrabold tracking-[-0.015em] leading-[1.2] text-white mb-3">
+                      View All<br />Vehicles
+                    </div>
+                    <p className="text-[12px] text-white/35 leading-[1.75]">
+                      Explore our complete collection of 24+ extraordinary machines.
+                    </p>
+                  </div>
+
+                  <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#C9A84C]/30 bg-[#C9A84C]/[0.08] font-display text-[10px] font-bold tracking-[0.16em] uppercase text-[#E8C76A] group-hover:bg-[#C9A84C]/15 group-hover:border-[#C9A84C]/60 transition-all">
+                    Browse All <ArrowRight className="w-3 h-3" strokeWidth={2.5} />
+                  </div>
+                </div>
+              </div>
+            )}
+          </SwiperSlide>
         </Swiper>
         <div className="cf-pagination flex justify-center mt-7 swiper-pagination !static" />
       </div>
-
     </section>
   );
 }
