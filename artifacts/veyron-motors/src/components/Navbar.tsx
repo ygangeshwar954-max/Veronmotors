@@ -1,9 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 
+const navLinks = [
+  { label: 'Home', href: '#' },
+  { label: 'Collection', href: '#collection' },
+  { label: 'Brands', href: '#brands' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Contact', href: '#contact' },
+];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState('Home');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,11 +34,24 @@ export default function Navbar() {
       </div>
 
       <div className="hidden md:flex items-center gap-[34px]">
-        <a href="#" className="font-display text-[11px] font-medium tracking-[0.1em] uppercase text-white/50 hover:text-white transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[#C9A84C] hover:after:w-full after:transition-all after:duration-300 text-[#E8C76A] after:!w-full">Home</a>
-        <a href="#collection" className="font-display text-[11px] font-medium tracking-[0.1em] uppercase text-white/50 hover:text-white transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[#C9A84C] hover:after:w-full after:transition-all after:duration-300">Collection</a>
-        <a href="#brands" className="font-display text-[11px] font-medium tracking-[0.1em] uppercase text-white/50 hover:text-white transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[#C9A84C] hover:after:w-full after:transition-all after:duration-300">Brands</a>
-        <a href="#experience" className="font-display text-[11px] font-medium tracking-[0.1em] uppercase text-white/50 hover:text-white transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[#C9A84C] hover:after:w-full after:transition-all after:duration-300">Experience</a>
-        <a href="#contact" className="font-display text-[11px] font-medium tracking-[0.1em] uppercase text-white/50 hover:text-white transition-colors relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[#C9A84C] hover:after:w-full after:transition-all after:duration-300">Contact</a>
+        {navLinks.map(({ label, href }) => {
+          const isActive = activeLink === label;
+          return (
+            <a
+              key={label}
+              href={href}
+              onClick={() => setActiveLink(label)}
+              className={`font-display text-[11px] font-medium tracking-[0.1em] uppercase transition-colors relative
+                after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-px after:bg-[#C9A84C] after:transition-all after:duration-300
+                ${isActive
+                  ? 'text-[#E8C76A] after:w-full'
+                  : 'text-white/50 hover:text-white after:w-0 hover:after:w-full'
+                }`}
+            >
+              {label}
+            </a>
+          );
+        })}
       </div>
 
       <div className="hidden md:flex">
