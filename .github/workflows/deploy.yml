@@ -28,7 +28,7 @@ jobs:
         working-directory: artifacts/veyron-motors
 
       - name: Build
-        run: npx vite build --config vite.config.github.ts
+        run: npx vite build --config vite.config.github.mjs
         working-directory: artifacts/veyron-motors
 
       - name: SPA fallback
