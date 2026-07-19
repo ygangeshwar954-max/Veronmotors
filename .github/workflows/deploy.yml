@@ -1,54 +1,30 @@
-name: Deploy Veyron Motors to GitHub Pages
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install dependencies (standalone, no workspace)
-        working-directory: artifacts/veyron-motors
-        run: cp package.ci.json package.json && npm install
-
-      - name: Build
-        working-directory: artifacts/veyron-motors
-        run: npm run build
-
-      - name: Add SPA fallback
-        run: cp artifacts/veyron-motors/dist/index.html artifacts/veyron-motors/dist/404.html
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: artifacts/veyron-motors/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+{
+  "name": "veyron-motors-ci",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build --config vite.config.github.ts"
+  },
+  "dependencies": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "framer-motion": "12.42.2",
+    "lucide-react": "0.545.0",
+    "wouter": "3.10.0",
+    "lenis": "1.3.25",
+    "swiper": "14.0.5",
+    "clsx": "2.1.1",
+    "tailwind-merge": "3.6.0",
+    "@tanstack/react-query": "5.101.2"
+  },
+  "devDependencies": {
+    "vite": "7.3.6",
+    "@vitejs/plugin-react": "5.2.0",
+    "@tailwindcss/vite": "4.3.2",
+    "tailwindcss": "4.3.2",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3"
+  }
+}
