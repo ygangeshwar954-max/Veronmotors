@@ -5,6 +5,7 @@ import NotFound from '@/pages/not-found';
 import Home from '@/pages/Home';
 import Cars from '@/pages/Cars';
 import CarDetail from '@/pages/CarDetail';
+import SmoothScroll from '@/components/SmoothScroll';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
@@ -24,9 +25,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-          <Router />
-        </WouterRouter>
+        <SmoothScroll>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+            <Router />
+          </WouterRouter>
+        </SmoothScroll>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

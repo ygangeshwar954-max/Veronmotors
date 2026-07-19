@@ -3,11 +3,12 @@ import { useParams, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft, Zap, Gauge, Wind, Settings2, Layers,
-  Navigation2, CheckCircle2, Calendar, ChevronLeft, ChevronRight, Phone, Mail
+  Navigation2, CheckCircle2, ChevronLeft, ChevronRight, Phone, Mail
 } from 'lucide-react';
 import { getCarBySlug, cars } from '@/data/cars';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Reveal, { StaggerReveal } from '@/components/Reveal';
 
 export default function CarDetail() {
   const params = useParams<{ slug: string }>();
@@ -57,14 +58,14 @@ export default function CarDetail() {
       <Navbar />
 
       {/* Hero Image */}
-      <div className="relative h-[70vh] min-h-[520px] overflow-hidden">
+      <div className="car-detail-hero relative overflow-hidden">
         <AnimatedImage src={car.gallery[activeImg]} alt={car.name} />
         <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/30 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/60 to-transparent" />
 
         {/* Gallery nav */}
         {car.gallery.length > 1 && (
-          <div className="absolute bottom-8 right-8 flex items-center gap-3 z-10">
+          <div className="car-gallery-nav absolute bottom-8 right-8 flex items-center gap-3 z-10">
             <button onClick={prevImg} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur border border-white/10 flex items-center justify-center hover:border-[#C9A84C]/50 transition-colors">
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -119,42 +120,36 @@ export default function CarDetail() {
           {/* Left column */}
           <div>
             {/* Price + CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex flex-wrap items-center justify-between gap-6 mb-12 pb-12 border-b border-white/[0.07]"
-            >
+            <Reveal direction="up" delay={0} duration={0.75}>
+            <div className="car-detail-price-row flex flex-wrap items-center justify-between gap-6 mb-12 pb-12 border-b border-white/[0.07]">
               <div>
                 <div className="font-display text-[10px] tracking-[0.2em] uppercase text-[#6B7280] mb-1">Starting Price</div>
-                <div className="font-display text-[42px] font-extrabold tracking-[-0.03em] text-[#E8C76A]">{car.price}</div>
+                <div className="font-display text-[clamp(32px,6vw,42px)] font-extrabold tracking-[-0.03em] text-[#E8C76A]">{car.price}</div>
               </div>
-              <div className="flex gap-3">
+              <div className="car-detail-ctas flex gap-3">
                 <a
                   href="#enquire"
-                  className="px-6 py-3 rounded-full bg-gradient-to-br from-[#9A7A2E] via-[#C9A84C] to-[#E8C76A] text-black font-display font-bold text-[11px] tracking-[0.12em] uppercase shadow-[0_4px_20px_rgba(201,168,76,0.28)] hover:-translate-y-[1px] hover:shadow-[0_8px_28px_rgba(201,168,76,0.44)] transition-all"
+                  className="px-6 py-3 min-h-[44px] rounded-full bg-gradient-to-br from-[#9A7A2E] via-[#C9A84C] to-[#E8C76A] text-black font-display font-bold text-[11px] tracking-[0.12em] uppercase shadow-[0_4px_20px_rgba(201,168,76,0.28)] hover:-translate-y-[1px] hover:shadow-[0_8px_28px_rgba(201,168,76,0.44)] transition-all"
                 >
                   Reserve This Vehicle
                 </a>
                 <a
                   href="#enquire"
-                  className="px-6 py-3 rounded-full border border-white/10 text-white/60 font-display font-bold text-[11px] tracking-[0.12em] uppercase hover:border-[#C9A84C]/50 hover:text-white transition-all"
+                  className="px-6 py-3 min-h-[44px] rounded-full border border-white/10 text-white/60 font-display font-bold text-[11px] tracking-[0.12em] uppercase hover:border-[#C9A84C]/50 hover:text-white transition-all"
                 >
                   Book a Viewing
                 </a>
               </div>
-            </motion.div>
+            </div>
+            </Reveal>
 
             {/* Specs grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="mb-12"
-            >
+            <Reveal direction="up" delay={0.1} duration={0.8}>
+            <div className="mb-12">
               <div className="font-display text-[11px] tracking-[0.28em] uppercase text-[#C9A84C] mb-6">
                 Performance Specifications
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <StaggerReveal staggerDelay={0.07} delay={0} duration={0.6} distance={28} className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {specs.map(({ icon: Icon, label, value }) => (
                   <div key={label} className="bg-white/[0.03] border border-white/[0.07] rounded-[14px] p-5 hover:border-[#C9A84C]/20 transition-colors">
                     <Icon className="w-4 h-4 text-[#C9A84C] mb-3" />
@@ -162,29 +157,23 @@ export default function CarDetail() {
                     <div className="font-display text-[17px] font-bold text-white">{value}</div>
                   </div>
                 ))}
-              </div>
-            </motion.div>
+              </StaggerReveal>
+            </div>
+            </Reveal>
 
             {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="mb-12"
-            >
+            <Reveal direction="up" delay={0.05} duration={0.8}>
+            <div className="mb-12">
               <div className="font-display text-[11px] tracking-[0.28em] uppercase text-[#C9A84C] mb-5">
                 About This Vehicle
               </div>
               <p className="text-[15px] text-white/55 leading-[1.9]">{car.description}</p>
-            </motion.div>
+            </div>
+            </Reveal>
 
             {/* Features */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mb-12"
-            >
+            <Reveal direction="up" delay={0.08} duration={0.8}>
+            <div className="mb-12">
               <div className="font-display text-[11px] tracking-[0.28em] uppercase text-[#C9A84C] mb-6">
                 Standard Equipment
               </div>
@@ -196,41 +185,37 @@ export default function CarDetail() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
+            </Reveal>
 
             {/* Gallery thumbnails */}
             {car.gallery.length > 1 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 }}
-                className="mb-4"
-              >
+              <Reveal direction="up" delay={0.1} duration={0.75}>
+              <div className="mb-4">
                 <div className="font-display text-[11px] tracking-[0.28em] uppercase text-[#C9A84C] mb-5">
                   Gallery
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
                   {car.gallery.map((src, i) => (
                     <button
                       key={i}
                       onClick={() => { setActiveImg(i); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                      className={`relative w-28 h-20 rounded-xl overflow-hidden border-2 transition-all ${i === activeImg ? 'border-[#C9A84C]' : 'border-white/10 hover:border-[#C9A84C]/40'}`}
+                      className={`shrink-0 relative w-24 h-16 sm:w-28 sm:h-20 rounded-xl overflow-hidden border-2 transition-all ${i === activeImg ? 'border-[#C9A84C]' : 'border-white/10 hover:border-[#C9A84C]/40'}`}
                     >
                       <img src={src} alt="" className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
-              </motion.div>
+              </div>
+              </Reveal>
             )}
           </div>
 
           {/* Right column — Enquiry form */}
           <div>
-            <motion.div
+            <Reveal direction="right" delay={0.18} duration={0.85}>
+            <div
               id="enquire"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
               className="sticky top-28 bg-white/[0.03] border border-white/[0.08] rounded-[22px] p-8"
             >
               {!formSent ? (
@@ -309,16 +294,19 @@ export default function CarDetail() {
                   </button>
                 </div>
               )}
-            </motion.div>
+            </div>
+            </Reveal>
           </div>
         </div>
 
         {/* Related vehicles */}
         {related.length > 0 && (
           <div className="mt-24 pt-16 border-t border-white/[0.06]">
-            <div className="font-display text-[11px] tracking-[0.28em] uppercase text-[#C9A84C] mb-2">More from {car.maker}</div>
-            <h3 className="font-display text-[28px] font-bold mb-10">You may also like</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Reveal direction="up" delay={0} duration={0.75}>
+              <div className="font-display text-[11px] tracking-[0.28em] uppercase text-[#C9A84C] mb-2">More from {car.maker}</div>
+              <h3 className="font-display text-[28px] font-bold mb-10">You may also like</h3>
+            </Reveal>
+            <StaggerReveal staggerDelay={0.1} delay={0.05} duration={0.7} distance={36} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {related.map(rc => (
                 <div
                   key={rc.id}
@@ -336,7 +324,7 @@ export default function CarDetail() {
                   </div>
                 </div>
               ))}
-            </div>
+            </StaggerReveal>
           </div>
         )}
       </div>

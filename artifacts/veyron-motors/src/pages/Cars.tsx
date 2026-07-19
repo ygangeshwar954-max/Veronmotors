@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'wouter';
-import { Search, SlidersHorizontal, ArrowLeft, ArrowRight, Zap, Gauge } from 'lucide-react';
+import { Search, ArrowLeft, ArrowRight, Zap, Gauge } from 'lucide-react';
 import { cars } from '@/data/cars';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
+import Reveal from '@/components/Reveal';
 
 const filters = ['All Models', 'Supercar', 'Hypercar', 'Grand Tourer', 'Luxury SUV', 'Roadster'];
 
@@ -50,30 +51,22 @@ export default function Cars() {
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
           </button>
-          <motion.span
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="block font-display text-[11px] font-semibold tracking-[0.3em] uppercase text-[#C9A84C] mb-3"
-          >
-            Full Catalogue
-          </motion.span>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08 }}
-            className="font-display text-[clamp(36px,5vw,72px)] font-extrabold tracking-[-0.03em] leading-[1.05] mb-4"
-          >
-            The Complete<br />
-            <span className="text-gold-shimmer">Collection</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.16 }}
-            className="text-[15px] text-white/40 max-w-[500px] leading-[1.8]"
-          >
-            {cars.length} exceptional machines. Each hand-selected for those who refuse to compromise.
-          </motion.p>
+          <Reveal direction="up" delay={0.05} duration={0.7}>
+            <span className="block font-display text-[11px] font-semibold tracking-[0.3em] uppercase text-[#C9A84C] mb-3">
+              Full Catalogue
+            </span>
+          </Reveal>
+          <Reveal direction="up" delay={0.14} duration={0.85}>
+            <h1 className="font-display text-[clamp(36px,5vw,72px)] font-extrabold tracking-[-0.03em] leading-[1.05] mb-4">
+              The Complete<br />
+              <span className="text-gold-shimmer">Collection</span>
+            </h1>
+          </Reveal>
+          <Reveal direction="up" delay={0.22} duration={0.75}>
+            <p className="text-[15px] text-white/40 max-w-[500px] leading-[1.8]">
+              {cars.length} exceptional machines. Each hand-selected for those who refuse to compromise.
+            </p>
+          </Reveal>
         </div>
       </div>
 
@@ -91,13 +84,13 @@ export default function Cars() {
             />
           </div>
 
-          {/* Filter tabs */}
-          <div className="flex flex-wrap gap-2">
+          {/* Filter tabs — horizontally scrollable on mobile */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none flex-nowrap md:flex-wrap">
             {filters.map(f => (
               <button
                 key={f}
                 onClick={() => setActiveFilter(f)}
-                className={`px-4 py-2 rounded-full font-display text-[10px] font-bold tracking-[0.12em] uppercase transition-all ${
+                className={`shrink-0 min-h-[44px] px-4 py-2 rounded-full font-display text-[10px] font-bold tracking-[0.12em] uppercase transition-all ${
                   activeFilter === f
                     ? 'bg-[#C9A84C] text-black shadow-[0_4px_16px_rgba(201,168,76,0.3)]'
                     : 'bg-white/[0.04] border border-white/[0.08] text-white/50 hover:text-white hover:border-[#C9A84C]/40'
@@ -112,7 +105,7 @@ export default function Cars() {
           <select
             value={sort}
             onChange={e => setSort(e.target.value)}
-            className="px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full font-display text-[11px] tracking-[0.06em] text-white/60 focus:outline-none focus:border-[#C9A84C]/40 cursor-pointer appearance-none pr-8 transition-colors"
+            className="w-full md:w-auto min-h-[44px] px-4 py-2.5 bg-white/[0.04] border border-white/[0.08] rounded-full font-display text-[11px] tracking-[0.06em] text-white/60 focus:outline-none focus:border-[#C9A84C]/40 cursor-pointer appearance-none pr-8 transition-colors"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9A84C'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
           >
             <option value="default">Default Order</option>
@@ -125,9 +118,11 @@ export default function Cars() {
 
       {/* Grid */}
       <div className="px-6 md:px-20 py-14 max-w-[1280px] mx-auto">
-        <div className="text-[12px] text-white/30 font-display tracking-[0.1em] uppercase mb-8">
-          {filtered.length} vehicle{filtered.length !== 1 ? 's' : ''} found
-        </div>
+        <Reveal direction="none" delay={0} duration={0.5} tilt={false}>
+          <div className="text-[12px] text-white/30 font-display tracking-[0.1em] uppercase mb-8">
+            {filtered.length} vehicle{filtered.length !== 1 ? 's' : ''} found
+          </div>
+        </Reveal>
 
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence>

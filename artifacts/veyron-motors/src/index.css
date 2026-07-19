@@ -184,6 +184,118 @@
   transform: translateY(-2px);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE SYSTEM
+   Mobile  < 640px  |  Tablet 640–1024px  |  Desktop > 1024px
+   ──────────────────────────────────────────────────────────
+   Rules here extend Tailwind; use named CSS classes on
+   elements that can't be reached with inline Tailwind alone.
+══════════════════════════════════════════════════════════════ */
+
+/* — Global foundation — */
+*, *::before, *::after { box-sizing: border-box; }
+
+img, video, embed, object {
+  max-width: 100%;
+  display: block;
+}
+
+html { overflow-x: hidden; }
+body { overflow-x: hidden; max-width: 100vw; }
+
+/* ── MOBILE  (max-width: 639px) ───────────────────────────── */
+@media (max-width: 639px) {
+  /* Body text floor — prevents illegibly small type */
+  body { font-size: 16px; }
+
+  /* Prevent iOS auto-zoom when focusing inputs */
+  input, select, textarea { font-size: 16px !important; }
+
+  /* Ensure every interactive element meets 44px tap target */
+  .btn-gold,
+  .btn-outline {
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+
+  /* Hero stats: 2×2 grid instead of 4 tall stacked rows */
+  .hero-stats {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+  }
+  .hero-stats > * {
+    border-right: 1px solid rgba(255,255,255,0.05) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    border-left: none !important;
+  }
+  /* Remove right border on even columns */
+  .hero-stats > *:nth-child(2n) { border-right: none !important; }
+  /* Remove bottom border on last row */
+  .hero-stats > *:nth-last-child(-n+2) { border-bottom: none !important; }
+
+  /* Car detail: shrink hero image so content starts higher */
+  .car-detail-hero { height: 54vh !important; min-height: 320px !important; }
+
+  /* Car detail price + CTA block: stack vertically */
+  .car-detail-price-row { flex-direction: column !important; align-items: flex-start !important; }
+  .car-detail-ctas {
+    flex-direction: column !important;
+    width: 100%;
+  }
+  .car-detail-ctas > * {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 48px;
+  }
+
+  /* Gallery prev/next: move above the thumbnail strip */
+  .car-gallery-nav { bottom: 60px !important; }
+
+  /* Footer legal links: wrap and center on small screens */
+  .footer-legal { flex-wrap: wrap !important; justify-content: center !important; gap: 14px !important; }
+
+  /* Avoid overflow in Swiper container */
+  .swiper-wrapper { overflow: visible; }
+}
+
+/* ── TABLET  (640px – 1024px) ─────────────────────────────── */
+@media (min-width: 640px) and (max-width: 1024px) {
+  /* Hero stats: restore single row layout */
+  .hero-stats { display: flex !important; flex-direction: row; }
+
+  /* Maintain 44px tap targets */
+  .btn-gold, .btn-outline { min-height: 44px; }
+
+  /* Prevent iOS zoom on form fields */
+  input, select, textarea { font-size: 16px; }
+
+  /* Car detail: medium hero height */
+  .car-detail-hero { height: 62vh !important; min-height: 420px !important; }
+
+  /* Footer legal links: restore row layout */
+  .footer-legal { flex-wrap: nowrap !important; justify-content: flex-end !important; }
+}
+
+/* ── DESKTOP  (min-width: 1025px) ─────────────────────────── */
+@media (min-width: 1025px) {
+  /* Buttons revert to auto-width (inline) */
+  .btn-gold, .btn-outline { width: auto; }
+
+  /* Hero stats: full horizontal row */
+  .hero-stats { display: flex !important; flex-direction: row; }
+
+  /* Car detail: full tall hero */
+  .car-detail-hero { height: 70vh !important; min-height: 520px !important; }
+
+  /* Footer legal: side-by-side row */
+  .footer-legal { flex-wrap: nowrap !important; justify-content: flex-end !important; }
+}
+
 /* Swiper custom overrides */
 .swiper-pagination-bullet {
   width: 6px !important;
