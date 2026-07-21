@@ -17,7 +17,7 @@ export default function Experience() {
             <div className="relative">
               <div className="rounded-[18px] md:rounded-[22px] overflow-hidden border border-white/5 relative z-10">
                 <img
-                  src="/images/interior.png"
+                   src={`${import.meta.env.BASE_URL}images/interior.png`}
                   alt="Luxury car interior"
                   className="w-full h-[260px] sm:h-[360px] md:h-[540px] object-cover"
                 />
