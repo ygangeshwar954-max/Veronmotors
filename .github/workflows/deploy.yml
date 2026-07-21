@@ -23,6 +23,9 @@ jobs:
       - name: Use CI package.json
         run: cp artifacts/veyron-motors/package.ci.json veyron-motors/package.json
 
+      - name: Use CI vite config
+        run: cp .github/workflows/artifacts/veyron-motors/vite.config.github.mjs veyron-motors/vite.config.github.mjs
+
       - name: Install
         run: npm install --legacy-peer-deps
         working-directory: veyron-motors
