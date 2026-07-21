@@ -8,7 +8,7 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
       <div
         className="absolute inset-0 bg-cover bg-right md:bg-center"
-        style={{ backgroundImage: "url('/images/hero-car.png')" }}
+        style={{ backgroundImage: `url('${import.meta.env.BASE_URL}images/hero-car.png')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-br from-[#000000]/95 via-[#000000]/75 to-[#000000]/5" />
       <div
