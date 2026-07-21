@@ -25,28 +25,28 @@ jobs:
           node-version: 22
 
       - name: Use CI package.json
-        run: cp artifacts/veyron-motors/package.ci.json veyron-motors/package.json
+        run: cp artifacts/veyron-motors/package.ci.json artifacts/veyron-motors/package.json
 
       - name: Use CI vite config
-        run: cp .github/workflows/artifacts/veyron-motors/vite.config.github.mjs veyron-motors/vite.config.github.mjs
+        run: cp .github/workflows/artifacts/veyron-motors/vite.config.github.mjs artifacts/veyron-motors/vite.config.github.mjs
 
       - name: Install
         run: npm install --legacy-peer-deps
-        working-directory: veyron-motors
+        working-directory: artifacts/veyron-motors
 
       - name: Build
         run: npx vite build --config vite.config.github.mjs
-        working-directory: veyron-motors
+        working-directory: artifacts/veyron-motors
 
       - name: SPA fallback
-        run: cp veyron-motors/dist/index.html veyron-motors/dist/404.html
+        run: cp artifacts/veyron-motors/dist/index.html artifacts/veyron-motors/dist/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: veyron-motors/dist
+          path: artifacts/veyron-motors/dist
 
   deploy:
     needs: build
