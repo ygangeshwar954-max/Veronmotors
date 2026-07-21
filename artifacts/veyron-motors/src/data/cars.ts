@@ -21,7 +21,7 @@ export interface Car {
   features: string[];
 }
 
-export const cars: Car[] = [
+const rawCars: Car[] = [
   {
     id: 1,
     slug: 'ferrari-296-gtb',
@@ -540,6 +540,13 @@ export const cars: Car[] = [
     features: ['W16 Final Edition Quad-Turbo', '99 Units Total Production', 'Full Carbon Fibre Body', 'Adaptive Chassis Control', 'Bespoke Michelin Tyres', 'Titanium & Carbon Interior', 'Lifetime Bugatti Support', 'Owner Delivery Experience'],
   },
 ];
+const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
+export const cars: Car[] = rawCars.map((car) => ({
+  ...car,
+  img: withBase(car.img),
+  gallery: car.gallery.map(withBase),
+}));
 
 export const getCoverflowCars = () => cars.slice(0, 8);
 export const getCarBySlug = (slug: string) => cars.find(c => c.slug === slug);
